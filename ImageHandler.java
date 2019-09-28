@@ -1,0 +1,66 @@
+import java.util.HashMap;
+import java.util.Random;
+import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+import javax.swing.JPanel;
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.awt.event.*;
+import java.awt.*;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+/*
+    each folder in images should have its own image handler
+    this class will keep track of the path, and store all the images in a hashmap
+    also, any other utility functions needed for images.
+
+    usage eg (Environment class): 
+    ImageHandler imageHandler = new ImageHandler(environment);
+    bg = "background.png";
+    imageHandler.loadImage(bg);
+    g2.drawImage(imageHandler.getImage(bg));
+*/
+public class ImageHandler
+{  
+    private String path = "Assets/images/";
+    private String folderName;
+    private HashMap<String, Image> images;
+
+    public ImageHandler(String folderName){
+        this.folderName = folderName; 
+        this.path = this.path + path + "/";
+        this.images = null; // does this work?
+    }
+
+    public String getPath(){ return this.path;}
+    public void setPath(String path){ this.path = path;}
+
+    public void loadImage(String imageName) {
+		ImageIcon ii = null;
+		Image i = null;
+		try {
+			ii = new ImageIcon(path + imageName);
+            i = ii.getImage();
+            this.images.put(imageName, i);
+			System.out.println("Loaded Image!: " + imageName);
+			System.out.println("image map for " + folderName + ": " + this.images.toString());
+		} catch (Exception e) {
+			System.out.println("error loading image: " + imageName);
+			System.out.println(e.getMessage());
+		}
+		return;
+    }
+    
+    public Image getImage(String imageName){return this.images.get(imageName);}
+
+    public String toString(){
+        String s = "folderName = " + this.folderName
+            + "\npath = " + this.path
+            + "\nimages = " + this.images.toString();
+        return s;
+    }
+
+}
