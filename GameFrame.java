@@ -37,27 +37,27 @@ public class GameFrame extends JFrame implements ActionListener {
 
 		add (buttonPanel, "South");
 
-		loadClips ();
+		//loadClips ();
 	}
 
-	public void loadClips() {
+	// public void loadClips() {
 
-		try {
-			playSound = Applet.newAudioClip (
-					getClass().getResource("clack.au"));
-		}
-		catch (Exception e) {
-			System.out.println ("Error loading sound file: " + e);
-		}
+	// 	try {
+	// 		playSound = Applet.newAudioClip (
+	// 				getClass().getResource("clack.au"));
+	// 	}
+	// 	catch (Exception e) {
+	// 		System.out.println ("Error loading sound file: " + e);
+	// 	}
 
-	}
+	// }
 
-	public void playClip (int index) {
+	// public void playClip (int index) {
 
-		if (index == 1 && playSound != null)
-			playSound.play();
+	// 	if (index == 1 && playSound != null)
+	// 		playSound.play();
 
-	}
+	// }
 
 	// implementation of ActionListener interface for GameFrame
 

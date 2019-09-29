@@ -54,7 +54,7 @@ public class Minion extends Sprite{
 		setPosition();					// set initial position of minion
 
 		//ballImage = panel.loadImage ("Assets/images/minion.gif");
-		loadClips();
+		//loadClips();
 		System.out.println("minion created!" + this.toString());
 	}
 
