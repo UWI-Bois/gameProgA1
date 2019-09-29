@@ -57,7 +57,7 @@ public class AudioHandler
 
 		}
 		catch (Exception e) {
-			System.out.println ("Error loading sound file: " + e);
+			System.out.println ("Error loading sound file: " + fileName + "  " + e);
 		}
 	}
 
@@ -66,7 +66,7 @@ public class AudioHandler
             this.clips.get(fileName).play();
             System.out.println("played clip: " + fileName);
         } catch (Exception e) {
-            System.out.println ("Error playing sound file: " + e);
+            System.out.println ("Error playing sound file: "+ fileName + "  " + e);
         }
 	}
     

@@ -23,12 +23,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	private Environment environment;
 	private String stats;
 
-	AudioClip playSound = null;
-
 	private Thread gameThread;
 	boolean isRunning;
-
-	private String auPath = "Assets/sounds/";
 
 	public GamePanel () {
 		environment = new Environment();
@@ -36,8 +32,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		addKeyListener(this);			// respond to key events
 		setFocusable(true);
     	requestFocus();    			// the GamePanel now has focus, so receives key events
-
-		loadClips ();
 
 		gameThread = null;
 		isRunning = false;
@@ -102,26 +96,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		}
 	}
 
-	public void loadClips() {
-
-		try {
-			playSound = Applet.newAudioClip (
-					getClass().getResource(auPath + "Background.wav"));
-
-		}
-		catch (Exception e) {
-			System.out.println ("Error loading sound file: " + e);
-		}
-
-	}
-
-	public void playClip (int index) {
-
-		if (index == 1 && playSound != null)
-			playSound.play();
-
-	}
-
 	public void gameUpdate () {
 		minion.move();
 	}
@@ -141,7 +115,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 			isRunning = true;
 			jo = new Jo (this);
 			minion = new Minion (this, jo);
-			playSound.loop();
+			environment.getAudioHandler().getClip("bgm.wav").loop();
 			gameThread = new Thread(this);
 			gameThread.start();
 		}
@@ -151,7 +125,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
 		if (isRunning) {
 			isRunning = false;
-			playSound.stop();
+			environment.getAudioHandler().getClip("bgm.wav").stop();
+			//playSound.stop();
 		}
 	}
 
