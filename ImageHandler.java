@@ -49,7 +49,7 @@ public class ImageHandler
             i = ii.getImage();
             this.images.put(imageName, i);
 			System.out.println("Loaded Image!: " + imageName);
-			//System.out.println("image map for " + folderName + ": " + this.images.toString());
+			System.out.println("image map for " + folderName + ": " + this.images.toString());
 		} catch (Exception e) {
 			System.out.println("error loading image: " + imageName);
 			System.out.println(e.getMessage());
@@ -61,7 +61,7 @@ public class ImageHandler
 
     public String toString(){
         String list = "list";
-        //list = this.images.toString();
+        list = this.images.toString();
         String s = "folderName = " + this.folderName
             + "\npath = " + this.path
             + "\nimages = " + list + "\n";

@@ -16,7 +16,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 {					
 	private Jo jo = null;
 	private Minion minion = null;
-	private Environment envi = null;
+	private Environment environment;
 	private String stats;
 
 	AudioClip playSound = null;
@@ -24,19 +24,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	private Thread gameThread;
 	boolean isRunning;
 
-	private String imgPath = "Assets/images/environment/";
 	private String auPath = "Assets/sounds/";
-	private Image bgImage;
-
-	private int width = 1280;
-	private int height = 720;
-
-	// private Dimension dimension;
 
 	public GamePanel () {
-		// dimension = this.getSize();
-		// System.out.println("d.width = " + dimension.width + "\nd.height = " + dimension.height );
-
+		environment = new Environment();
 		setBackground(Color.CYAN);
 		addKeyListener(this);			// respond to key events
 		setFocusable(true);
@@ -46,9 +37,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
 		gameThread = null;
 		isRunning = false;
-
-		bgImage = loadImage (imgPath + "background.png");
-		//System.out.println("loaded bg!");
 		System.out.println("GP created!");
 	}
 
@@ -130,21 +118,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
 	}
 
-	public Image loadImage(String imageName) {
-		//return new ImageIcon(fileName).getImage();
-		ImageIcon ii = null;
-		Image i = null;
-		try {
-			ii = new ImageIcon(imageName);
-			i = ii.getImage();
-			System.out.println("Loaded Image!: " + imageName);
-		} catch (Exception e) {
-			System.out.println("error loading image: " + imageName);
-			System.out.println(e.getMessage());
-		}
-		return i;
-	}
-
 	public void gameUpdate () {
 		minion.move();
 	}
@@ -152,7 +125,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	public void gameRender () {				// draw the game objects
 
 		Graphics2D g2 = (Graphics2D) getGraphics();	// get the graphics context for the panel
-		g2.drawImage(bgImage, 0, 0, width, height, null);		// draw the background image
+		g2.drawImage(environment.getImageHandler().getImage("background.png"), 0, 0, environment.width, environment.height, null);		// draw the background image
 		minion.draw(g2);					// draw the minion
 		jo.draw(g2);					// draw the jo
 		//stats = jo.printStats();

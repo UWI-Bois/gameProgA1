@@ -24,8 +24,10 @@ public class Environment extends Sprite
         String bg = "background.png";
         this.imageHandler.loadImage(bg);
 
-        //System.out.println("initImages for Environment:" + imageHandler.toString());
+        System.out.println("initImages for Environment:" + imageHandler.toString());
     }
+
+    public ImageHandler getImageHandler(){return this.imageHandler;}
 
     public int getGround(){return this.ground;}
     public void setGround(int y){this.ground = y;}
@@ -41,9 +43,9 @@ public class Environment extends Sprite
 
 
     //main for testing
-    public static void main(String[] args) {
-        Environment e = new Environment();
-        System.out.println(e.toString());
-        System.out.println("end e test");
-    }
+    // public static void main(String[] args) {
+    //     Environment e = new Environment();
+    //     System.out.println(e.toString());
+    //     System.out.println("end e test");
+    // }
 }
