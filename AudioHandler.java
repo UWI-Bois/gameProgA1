@@ -81,22 +81,22 @@ public class AudioHandler
         return s;
     }
 
-    public static void main(String[] args) {
-        AudioHandler a = new AudioHandler(); 
+    // public static void main(String[] args) {
+    //     AudioHandler a = new AudioHandler(); 
 
-        // String fileName2 = "hitWall.au";
-        // a.loadClip(fileName2);
-        // a.playClip(fileName2);
+    //     // String fileName2 = "hitWall.au";
+    //     // a.loadClip(fileName2);
+    //     // a.playClip(fileName2);
 
-        String fileName = "fallOff.au";
-        a.loadClip(fileName);
-        a.playClip(fileName);
+    //     String fileName = "bgm.wav";
+    //     a.loadClip(fileName);
+    //     a.playClip(fileName);
 
-        // String fileName1 = "fallOff.au";
-        // a.loadClip(fileName1);
-        // a.playClip(fileName1);
+    //     // String fileName1 = "fallOff.au";
+    //     // a.loadClip(fileName1);
+    //     // a.playClip(fileName1);
 
-        System.out.println(a.toString());
-    }
+    //     System.out.println(a.toString());
+    // }
 
 }
