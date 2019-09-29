@@ -13,12 +13,10 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener 
-{
-	private String imgPath = "Assets/images/environment/";					
-	private String auPath = "Assets/sounds/";					
-
+{					
 	private Jo jo = null;
 	private Minion minion = null;
+	private Environment envi = null;
 	private String stats;
 
 	AudioClip playSound = null;
@@ -26,10 +24,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	private Thread gameThread;
 	boolean isRunning;
 
+	private String imgPath = "Assets/images/environment/";
+	private String auPath = "Assets/sounds/";
 	private Image bgImage;
 
 	private int width = 1280;
 	private int height = 720;
+
 	// private Dimension dimension;
 
 	public GamePanel () {

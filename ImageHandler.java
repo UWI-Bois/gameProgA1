@@ -1,4 +1,6 @@
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Random;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -27,12 +29,13 @@ public class ImageHandler
 {  
     private String path = "Assets/images/";
     private String folderName;
-    private HashMap<String, Image> images;
+    private LinkedHashMap<String, Image> images;
 
     public ImageHandler(String folderName){
         this.folderName = folderName; 
-        this.path = this.path + path + "/";
-        this.images = null; // does this work?
+        this.path = this.path + folderName + "/";
+        this.images = new LinkedHashMap<String, Image>(); // does this work?
+        System.out.println("ImageHandler created~!");
     }
 
     public String getPath(){ return this.path;}
@@ -46,7 +49,7 @@ public class ImageHandler
             i = ii.getImage();
             this.images.put(imageName, i);
 			System.out.println("Loaded Image!: " + imageName);
-			System.out.println("image map for " + folderName + ": " + this.images.toString());
+			//System.out.println("image map for " + folderName + ": " + this.images.toString());
 		} catch (Exception e) {
 			System.out.println("error loading image: " + imageName);
 			System.out.println(e.getMessage());
@@ -57,9 +60,11 @@ public class ImageHandler
     public Image getImage(String imageName){return this.images.get(imageName);}
 
     public String toString(){
+        String list = "list";
+        //list = this.images.toString();
         String s = "folderName = " + this.folderName
             + "\npath = " + this.path
-            + "\nimages = " + this.images.toString();
+            + "\nimages = " + list + "\n";
         return s;
     }
 

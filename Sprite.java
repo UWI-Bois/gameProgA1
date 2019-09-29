@@ -19,8 +19,6 @@ public class Sprite
     protected int width; // size of entity
 	protected int height;
     protected String name;
-    private String imgPath = "Assets/images/";
-    protected String auPath = "Assets/sounds/";
 
     protected boolean visible;
 
@@ -66,13 +64,6 @@ public class Sprite
         this.name = s;
     }
 
-    public void setImgPath(String s){
-        this.imgPath = s;
-    }
-    
-    public String getImgPath(){
-        return this.imgPath;
-    }
 
     @Override
 	public String toString(){
@@ -85,12 +76,7 @@ public class Sprite
     }
     
     public static int getRandomInt(int max, int min){
-        // max++;
         int val = 0;
-        // int temp = min-1;
-        // if(temp > 0){
-        //     min = temp;
-        // }
         val = (int) (Math.random() * ((max-min) + 1) + min);
         return val;
     }

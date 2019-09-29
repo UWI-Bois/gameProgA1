@@ -33,6 +33,8 @@ public class Minion extends Sprite{
 	private static int health;
 	private int score;
 
+	private String auPath = "Assets/sounds/";
+
 	public Minion (GamePanel p, Jo b) {
 		super();
 		super.name = "Minion";

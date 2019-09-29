@@ -32,6 +32,8 @@ public class Jo extends Player
 	private static int score = 0;
 	private static int health = 10;
 
+	private String auPath = "Assets/sounds/";
+
     public Jo(GamePanel p){
 		super(p);
 		super.name = "Jo";
