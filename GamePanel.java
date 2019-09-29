@@ -103,7 +103,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	public void gameRender () {				// draw the game objects
 
 		Graphics2D g2 = (Graphics2D) getGraphics();	// get the graphics context for the panel
-		g2.drawImage(environment.getImageHandler().getImage("background.png"), 0, 0, environment.width, environment.height, null);		// draw the background image
+		g2.drawImage(
+			environment.getImageHandler().getImage("background.png"), 
+			0, 0, 
+			environment.width, environment.height, null
+		);		// draw the background image
 		minion.draw(g2);					// draw the minion
 		jo.draw(g2);					// draw the jo
 		//stats = jo.printStats();
@@ -114,7 +118,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		if (gameThread == null) {
 			isRunning = true;
 			jo = new Jo (this);
-			minion = new Minion (this, jo);
+			minion = new Minion (this, jo, environment);
 			environment.getAudioHandler().getClip("bgm.wav").loop();
 			gameThread = new Thread(this);
 			gameThread.start();

@@ -19,6 +19,7 @@ import java.awt.Image;
 
 public class Minion extends Sprite{	
 	private static int DY = 5;
+	private static int DX = 7;
 
 	Graphics2D g2;
 	private GamePanel panel;
@@ -26,7 +27,9 @@ public class Minion extends Sprite{
 	private Color backgroundColor;
 
 	private AudioHandler audioHandler;
+
 	private Jo jo;
+	private Environment environment;
 
 	private static int health;
 	private int score;
@@ -34,16 +37,21 @@ public class Minion extends Sprite{
 	private String clack = "clack.au";
 	private String hitBat = "hitBat.au";
 
-	public Minion (GamePanel p, Jo b) {
+	private boolean facingLeft;
+	private boolean facingRight;
+
+	public Minion (GamePanel p, Jo b, Environment e) {
 		super();
 		super.name = "Minion";
 		super.width = 30;
 		super.height = 40;
 		health = getRandomInt(0, 4); // return a random int between 0 and 4
 		score = health;
+		facingLeft = facingRight = false;
 
 		panel = p;
 		jo = b;
+		environment = e;
 		Graphics g = panel.getGraphics ();
 		g2 = (Graphics2D) g;
 		dimension = panel.getSize();
@@ -119,7 +127,24 @@ public class Minion extends Sprite{
 
 		if (!panel.isVisible ()) return;
 
-		y = y + DY;
+		boolean goLeft = false;
+		boolean goRight = false;
+
+		if(y >= environment.getGround()){
+			// the minion has landed, look for jo now
+			//x += DX;
+			if(x - jo.getX() < 0){ // jo is to your right
+				goRight = true;
+				goLeft = false;
+				moveRight();
+			}
+			else{ // jo is to your left
+				goRight = false;
+				goLeft = true;
+				moveLeft();
+			}
+		}
+		else y = y + DY; // fall to the ground before seeking jo
 
 		boolean hitPlayer = playerHitsBall();
 
@@ -140,9 +165,38 @@ public class Minion extends Sprite{
 			}
 			catch (InterruptedException e) {};
 
-			setPosition ();				// re-set position of minion
+			//setPosition ();				// re-set position of minion
 		}
 		
 	}
 
+	public void moveLeft () {
+
+		if (!panel.isVisible ()) return;
+
+		// erase();					// no need to erase with background image
+
+		x = x - DX;
+
+		if (x < 0) {					// hits left wall
+			x = 0;
+			//playClip (1);
+		}
+    }
+    public void moveRight () {
+
+		if (!panel.isVisible ()) return;
+
+		// erase();					// no need to erase with background image
+
+		x = x + DX;
+
+		if (x + width >= dimension.width) {		// hits right wall
+			x = dimension.width - width;
+			//playClip (1);
+		}
+
+		facingRight = true;
+		facingLeft = false;
+    }
 }
