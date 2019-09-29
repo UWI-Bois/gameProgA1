@@ -10,6 +10,12 @@ public class Environment extends Sprite
     private AudioHandler audioHandler;
     private String folderName;
     private int ground;
+
+    // image file names
+    private String bgImage = "background.png";
+    // sound file names
+    private String bgm = "bgm.wav";
+
     public Environment(){
         name = "environment";
         folderName = name; // accessible through imagehandler class
@@ -17,21 +23,18 @@ public class Environment extends Sprite
         height = 720;
         ground = 500;
         imageHandler = new ImageHandler(folderName);
-        audioHandler = new AudioHandler();
+        audioHandler = new AudioHandler(folderName);
         initImages();
         initAudio();
     }
 
     private void initImages(){
-        String bg = "background.png";
-        this.imageHandler.loadImage(bg);
-
+        this.imageHandler.loadImage(bgImage);
         System.out.println("initImages for Environment:" + imageHandler.toString());
     }
 
     private void initAudio(){
-        String bg = "bgm.wav";
-        this.audioHandler.loadClip(bg);
+        this.audioHandler.loadClip(bgm);
         System.out.println("initAudio for Environment:" + audioHandler.toString());
     }
 

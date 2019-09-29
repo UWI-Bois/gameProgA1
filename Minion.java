@@ -18,22 +18,21 @@ import java.awt.Image;
 */
 
 public class Minion extends Sprite{	
-	private static final int DY = 5;
+	private static int DY = 5;
 
 	Graphics2D g2;
 	private GamePanel panel;
 	private Dimension dimension;
 	private Color backgroundColor;
 
-	private Random random;
-	AudioClip hitPlayerSound;
-	AudioClip fallOffSound;
+	private AudioHandler audioHandler;
 	private Jo jo;
 
 	private static int health;
 	private int score;
 
-	private String auPath = "Assets/sounds/";
+	private String clack = "clack.au";
+	private String hitBat = "hitBat.au";
 
 	public Minion (GamePanel p, Jo b) {
 		super();
@@ -50,13 +49,21 @@ public class Minion extends Sprite{
 		dimension = panel.getSize();
 		backgroundColor = panel.getBackground ();
 
-		random = new Random();
 		setPosition();					// set initial position of minion
 
-		//ballImage = panel.loadImage ("Assets/images/minion.gif");
-		//loadClips();
+		audioHandler = new AudioHandler("minion");
+		initAudio();
+
 		System.out.println("minion created!" + this.toString());
 	}
+
+	private void initAudio(){
+        String bg = "clack.au";
+		this.audioHandler.loadClip(bg);
+		bg = "hitBat.au";
+        this.audioHandler.loadClip(bg);
+        System.out.println("initAudio for Minion:" + audioHandler.toString());
+    }
 
 	public void setPosition () {
 		// spawn locations based on bgimage: 95,95 - 60,130 // 190,95 - 215,130
@@ -101,7 +108,6 @@ public class Minion extends Sprite{
 	}
 
 	public boolean isOffScreen () {
-
 		if (y + height > dimension.height)
 			return true;
 		else
@@ -112,9 +118,6 @@ public class Minion extends Sprite{
 	public void move () {
 
 		if (!panel.isVisible ()) return;
-	
-		//erase(g2);					// no need to erase with background image
-
 
 		y = y + DY;
 
@@ -124,10 +127,12 @@ public class Minion extends Sprite{
 			if (hitPlayer) {
 				jo.setHealth(jo.getHealth()-1);
 				String s = jo.printStats();
-				playClip (1);			// play clip if jo hits minion
+				//playClip (1);			// play clip if jo hits minion
+				audioHandler.getClip(hitBat).play();
 			}
 			else {					// play clip if minion falls out at bottom
-				playClip (2);
+				//playClip (2);
+				audioHandler.getClip(clack).play();
 			}
 
 			try {					// take a rest if jo hits minion or
@@ -138,33 +143,6 @@ public class Minion extends Sprite{
 			setPosition ();				// re-set position of minion
 		}
 		
-	}
-
-	public void loadClips() {
-
-		try {
-
-			hitPlayerSound = Applet.newAudioClip (
-					getClass().getResource(auPath + "hitPlayer.au"));
-
-			fallOffSound = Applet.newAudioClip (
-					getClass().getResource(auPath + "fallOff.au"));
-
-		}
-		catch (Exception e) {
-			System.out.println ("Error loading sound file: " + e);
-		}
-
-	}
-
-	public void playClip (int index) {
-
-		if (index == 1 && hitPlayerSound != null)
-			hitPlayerSound.play();
-		else
-		if (index == 2 && fallOffSound != null)
-			fallOffSound.play();
-
 	}
 
 }
