@@ -17,6 +17,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import java.util.List;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener 
 {					
@@ -29,6 +30,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
 	private Thread gameThread;
 	boolean isRunning;
+	private ArrayList<Missile> missiles;
 
 	public GamePanel () {
 		environment = new Environment(this);
@@ -40,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		gameThread = null;
 		isRunning = false;
 		delay = 10;
+		missiles = new ArrayList<Missile>();
 		//timer = new Timer(delay, this);
 		//timer.start();
 		System.out.println("GP created!");
@@ -91,7 +94,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		int keyCode = e.getKeyCode();
 
 		if(keyCode == KeyEvent.VK_SPACE){
-            //jo.fire();
+			//jo.fire();
+			//updateMissiles();
+			jo.setCanShoot(false);
            //System.out.println("pressed space");
         }
 
@@ -115,7 +120,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
 	private void updateMissiles() {
 
-        List<Missile> missiles = jo.getMissiles();
+        //List<Missile> missiles = jo.getMissiles();
 
         for (int i = 0; i < missiles.size(); i++) {
 
@@ -133,11 +138,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
 	private void drawMissiles(){
 		Graphics2D g2 = (Graphics2D) getGraphics();
-		List<Missile> missiles = jo.getMissiles();
+		//List<Missile> missiles = jo.getMissiles();
 
         for (Missile missile : missiles) {
-            
-            missile.draw(g2);
+			missile.draw(g2);
+			missile.move();
         }
 	}
 
@@ -146,7 +151,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		if(jo.getCanShoot()){
 			drawMissiles();
 			updateMissiles();
-		} 
+		}
 	}
 
 	public void gameRender () {				// draw the game objects

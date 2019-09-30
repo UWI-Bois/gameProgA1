@@ -55,12 +55,15 @@ public class Jo extends Player
 	public List<Missile> getMissiles(){return this.missiles;}
 
 	public boolean getCanShoot(){return this.canShoot;}
+	public void setCanShoot(boolean v){this.canShoot = v;}
 
 	public void fire(){
 		this.canShoot = true;
+		int xV = x + width;
+		if(facingRight) xV = xV*-1;
 		missiles.add(new Missile(
 			panel,
-			x + width, 
+			xV, 
 			y+height / 2
 		));
 		// play sound

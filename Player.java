@@ -15,8 +15,6 @@ public abstract class Player extends Sprite
 
 	protected Environment environment;
 
-	
-
 	public Player (GamePanel p) {
 		super(p);
 		facingLeft = true;
