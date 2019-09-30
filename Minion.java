@@ -18,8 +18,8 @@ import java.awt.Image;
 */
 
 public class Minion extends Sprite{	
-	private static int DY = 5;
-	private static int DX = 7;
+	private static int DY;
+	private static int DX;
 
 	Graphics2D g2;
 	private GamePanel panel;
@@ -46,6 +46,8 @@ public class Minion extends Sprite{
 		super.name = "Minion";
 		super.width = 30;
 		super.height = 40;
+		DX = 5;
+		DY = 7;
 		health = getRandomInt(0, 4); // return a random int between 0 and 4
 		score = health;
 		facingLeft = facingRight = false;

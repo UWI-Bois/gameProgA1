@@ -30,7 +30,7 @@ public class Missile extends Sprite
         width = 20;
         height = 20;
         boardWidth = environment.width;
-        this.color = Color.CYAN;
+        this.color = Color.ORANGE;
         this.shape = new Rectangle2D.Double (x, y, width, height);
         initMissile();
         System.out.println("missile created!");

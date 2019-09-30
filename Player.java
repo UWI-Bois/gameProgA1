@@ -12,6 +12,8 @@ public abstract class Player extends Sprite
 
 	protected boolean facingLeft;
 	protected boolean facingRight;
+	protected static int score;
+	protected static int health;
 
 	protected Environment environment;
 

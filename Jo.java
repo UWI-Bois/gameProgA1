@@ -25,12 +25,8 @@ public class Jo extends Player
 {
 	private List<Missile> missiles;
 	GamePanel panel;
-	
-	private static int score = 0;
-	private static int health = 10;
 
 	private AudioHandler audioHandler;
-	private String oof = "oof.mp3";
 	private boolean canShoot;
 
     public Jo(GamePanel p){
@@ -64,14 +60,14 @@ public class Jo extends Player
 		missiles.add(new Missile(
 			panel,
 			xV, 
-			y+height / 2
+			y+height / 4
 		));
 		// play sound
 		System.out.println("ORA!");
 	}
 	
 	private void initAudio(){
-		this.audioHandler.loadClip(oof);
+		//this.audioHandler.loadClip(oof);
         System.out.println("initAudio for Minion:" + audioHandler.toString());
     }
 

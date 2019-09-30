@@ -28,25 +28,37 @@ public class Dio extends Player
 	private static int score = 0;
 	private static int health = 10;
 
+	private static int DY;
+	private static int DX;
+
 	private AudioHandler audioHandler;
 	private boolean canShoot;
 
-    public Dio(GamePanel p){
+	private String clack = "clack.au";
+	private String hitBat = "hitBat.au";
+	private String oof = "oof.wav";
+
+	private Jo jo;
+
+    public Dio(GamePanel p, Jo j){
 		super(p);
 		panel = p;
+		DY = 10;
+		DX = 10;
 		XSTEP = 6;
 		YSTEP = 20;
 		super.name = "Dio";
 		super.width = 40;
 		super.height = 60;
-		super.x = 1200;
-		super.y = 95;
+		super.x = 1190;
+		super.y = 40;
 		canShoot = false;
+		jo = j;
 
 		this.missiles = new ArrayList<>();
 		
-		//audioHandler = new AudioHandler("dio");
-		//initAudio();
+		audioHandler = new AudioHandler("minion");
+		initAudio();
         System.out.println("Dio created! " + this.toString());
 	}
 
@@ -69,12 +81,14 @@ public class Dio extends Player
 	}
 	
 	private void initAudio(){
-		//this.audioHandler.loadClip(oof);
-        System.out.println("initAudio for Minion:" + audioHandler.toString());
+		this.audioHandler.loadClip(this.oof);
+		this.audioHandler.loadClip(this.clack);
+		this.audioHandler.loadClip(this.hitBat);
+        System.out.println("initAudio for Dio:" + audioHandler.toString());
     }
 
     public void draw (Graphics2D g2) {
-		g2.setColor (Color.BLUE);
+		g2.setColor (Color.RED);
 		g2.fill (new Rectangle2D.Double (x, y, width, height));
     }
     public void erase (Graphics2D g2) {
@@ -108,13 +122,80 @@ public class Dio extends Player
 		}
 	}
     
-    public void moveLeft () {
+    public boolean playerHitsBall () {
+
+		Rectangle2D.Double rectBall = getBoundingRectangle();
+		Rectangle2D.Double rectPlayer = jo.getBoundingRectangle();
+		
+		if (rectBall.intersects(rectPlayer))
+			return true;
+		else
+			return false;
+	}
+
+	public boolean isOffScreen () {
+		if (y + height > dimension.height)
+			return true;
+		else
+			return false;
+	}
+
+
+	public void move () {
+
+		if (!panel.isVisible ()) return;
+
+		boolean goLeft = false;
+		boolean goRight = false;
+
+		if(y >= environment.getGround()){
+			// the minion has landed, look for jo now
+			//x += DX;
+			if(x - jo.getX() < 0){ // jo is to your right
+				goRight = true;
+				goLeft = false;
+				moveRight();
+			}
+			else{ // jo is to your left
+				goRight = false;
+				goLeft = true;
+				moveLeft();
+			}
+		}
+		else y = y + DY; // fall to the ground before seeking jo
+
+		boolean hitPlayer = playerHitsBall();
+
+		if (hitPlayer || isOffScreen()) {
+			if (hitPlayer) {
+				jo.setHealth(jo.getHealth()-1);
+				// String s = jo.printStats();
+				System.out.println(jo.printStats());
+				//playClip (1);			// play clip if jo hits minion
+				audioHandler.getClip(oof).play();
+			}
+			else {					// play clip if minion falls out at bottom
+				//playClip (2);
+				audioHandler.getClip(clack).play();
+			}
+
+			try {					// take a rest if jo hits minion or
+				Thread.sleep (500);		//   minion falls out of play.
+			}
+			catch (InterruptedException e) {};
+
+			//setPosition ();				// re-set position of minion
+		}
+		
+	}
+
+	public void moveLeft () {
 
 		if (!panel.isVisible ()) return;
 
 		// erase();					// no need to erase with background image
 
-		x = x - XSTEP;
+		x = x - DX;
 
 		if (x < 0) {					// hits left wall
 			x = 0;
@@ -127,7 +208,7 @@ public class Dio extends Player
 
 		// erase();					// no need to erase with background image
 
-		x = x + XSTEP;
+		x = x + DX;
 
 		if (x + width >= dimension.width) {		// hits right wall
 			x = dimension.width - width;

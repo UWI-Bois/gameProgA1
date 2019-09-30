@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class GamePanel extends JPanel implements Runnable, KeyListener 
 {					
 	private Jo jo = null;
+	private Dio dio = null;
 	private Minion minion = null;
 	private Environment environment;
 	private String stats;
@@ -148,6 +149,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
 	public void gameUpdate () {
 		minion.move();
+		dio.move();
 		if(jo.getCanShoot()){
 			drawMissiles();
 			updateMissiles();
@@ -163,7 +165,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 			environment.width, environment.height, null
 		);		// draw the background image
 		minion.draw(g2);					// draw the minion
-		jo.draw(g2);					// draw the jo
+		jo.draw(g2);
+		dio.draw(g2);					// draw the jo
 		//stats = jo.printStats();
 	}	
 
@@ -172,6 +175,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		if (gameThread == null) {
 			isRunning = true;
 			jo = new Jo (this);
+			dio = new Dio (this, jo);
 			minion = new Minion (this, jo, environment);
 			environment.getAudioHandler().getClip("bgm.wav").loop();
 			gameThread = new Thread(this);
