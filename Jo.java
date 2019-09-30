@@ -11,39 +11,60 @@ import java.awt.event.*;
 import java.awt.*;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
 this class will represent the player/MC(main character).
 	- a blue Rectangle
-	- can shoot a weapon 
+	- can shoot a projectile in the direction he is facing 
 	- can jump
 	- can move left and right
 */
 public class Jo extends Player
 {
-	private boolean facingLeft;
-	private boolean facingRight;
-	private int XSTEP = 6;		// amount of pixels to move in one keystroke
-	private int YSTEP = 20;		// amount of pixels to jump in one keystroke
-	private int YPOS = 500;		// groundish
+	private List<Missile> missiles;
+	GamePanel panel;
 	
 	private static int score = 0;
 	private static int health = 10;
 
 	private AudioHandler audioHandler;
 	private String oof = "oof.mp3";
+	private boolean canShoot;
 
     public Jo(GamePanel p){
 		super(p);
+		panel = p;
+		XSTEP = 6;
+		YSTEP = 20;
 		super.name = "Jo";
 		super.width = 40;
 		super.height = 60;
 		super.x = 1200;
-		super.y = YPOS;
+		super.y = environment.getGround();
+		canShoot = false;
+
+		this.missiles = new ArrayList<>();
 		
 		audioHandler = new AudioHandler("jo");
 		//initAudio();
         System.out.println("Jo created! " + this.toString());
+	}
+
+	public List<Missile> getMissiles(){return this.missiles;}
+
+	public boolean getCanShoot(){return this.canShoot;}
+
+	public void fire(){
+		this.canShoot = true;
+		missiles.add(new Missile(
+			panel,
+			x + width, 
+			y+height / 2
+		));
+		// play sound
+		System.out.println("ORA!");
 	}
 	
 	private void initAudio(){
@@ -72,7 +93,7 @@ public class Jo extends Player
 		y = y + YSTEP;
 
 		if(y > 0){
-			y = YPOS;
+			y = this.environment.getGround();
 		}
 	}
 	
@@ -82,7 +103,7 @@ public class Jo extends Player
 		y = y - YSTEP;
 
 		if(y < 0){
-			y = YPOS;
+			y = this.environment.getGround();
 		}
 	}
     
@@ -115,23 +136,11 @@ public class Jo extends Player
 		facingRight = true;
 		facingLeft = false;
     }
-
-    public Rectangle2D.Double getBoundingRectangle() {
-		return new Rectangle2D.Double (x, y, width, height);
-	}
 	
-	public int getHealth(){
-		return this.health;
-	}
-	public int getScore(){
-		return this.score;
-	}
-	public void setHealth(int v){
-		this.health = v;
-	}
-	public void setScore(int v){
-		this.score = v;
-	}
+	public int getHealth(){return this.health;}
+	public int getScore(){return this.score;}
+	public void setHealth(int v){this.health = v;}
+	public void setScore(int v){this.score = v;}
 
 	public String printStats(){
 		String s = "HP: "
@@ -139,7 +148,7 @@ public class Jo extends Player
 			+ "\nScore: "
 			+ this.score;
 
-		System.out.println(s);
+		//System.out.println(s);
 		return s;
 	}
 	

@@ -15,6 +15,8 @@ import java.awt.event.*;
 import java.awt.*;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
+import java.util.List;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener 
 {					
@@ -22,12 +24,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	private Minion minion = null;
 	private Environment environment;
 	private String stats;
+	//private Timer timer;
+	private int delay;
 
 	private Thread gameThread;
 	boolean isRunning;
 
 	public GamePanel () {
-		environment = new Environment();
+		environment = new Environment(this);
 		setBackground(Color.CYAN);
 		addKeyListener(this);			// respond to key events
 		setFocusable(true);
@@ -35,6 +39,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
 		gameThread = null;
 		isRunning = false;
+		delay = 10;
+		//timer = new Timer(delay, this);
+		//timer.start();
 		System.out.println("GP created!");
 	}
 
@@ -61,6 +68,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
 		int keyCode = e.getKeyCode();
 
+		if(keyCode == KeyEvent.VK_SPACE){
+            jo.fire();
+           //System.out.println("pressed space");
+        }
+
 		if (keyCode == KeyEvent.VK_LEFT) {
 			jo.moveLeft();
 		}
@@ -77,6 +89,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 			return;
 
 		int keyCode = e.getKeyCode();
+
+		if(keyCode == KeyEvent.VK_SPACE){
+            //jo.fire();
+           //System.out.println("pressed space");
+        }
 
 		if (keyCode == KeyEvent.VK_LEFT) {
 			jo.idle();
@@ -96,8 +113,40 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		}
 	}
 
+	private void updateMissiles() {
+
+        List<Missile> missiles = jo.getMissiles();
+
+        for (int i = 0; i < missiles.size(); i++) {
+
+            Missile missile = missiles.get(i);
+
+            if (missile.isVisible()) {
+
+                missile.move();
+            } else {
+
+                missiles.remove(i);
+            }
+        }
+    }
+
+	private void drawMissiles(){
+		Graphics2D g2 = (Graphics2D) getGraphics();
+		List<Missile> missiles = jo.getMissiles();
+
+        for (Missile missile : missiles) {
+            
+            missile.draw(g2);
+        }
+	}
+
 	public void gameUpdate () {
 		minion.move();
+		if(jo.getCanShoot()){
+			drawMissiles();
+			updateMissiles();
+		} 
 	}
 
 	public void gameRender () {				// draw the game objects

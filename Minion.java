@@ -42,7 +42,7 @@ public class Minion extends Sprite{
 	private boolean facingRight;
 
 	public Minion (GamePanel p, Jo b, Environment e) {
-		super();
+		super(p);
 		super.name = "Minion";
 		super.width = 30;
 		super.height = 40;
@@ -100,10 +100,6 @@ public class Minion extends Sprite{
 		g2.fill (new Ellipse2D.Double (x, y, width, height));
 	}
 
-	public Rectangle2D.Double getBoundingRectangle() {
-		return new Rectangle2D.Double (x, y, width, height);
-	}
-
 	public boolean playerHitsBall () {
 
 		Rectangle2D.Double rectBall = getBoundingRectangle();
@@ -151,7 +147,8 @@ public class Minion extends Sprite{
 		if (hitPlayer || isOffScreen()) {
 			if (hitPlayer) {
 				jo.setHealth(jo.getHealth()-1);
-				String s = jo.printStats();
+				// String s = jo.printStats();
+				System.out.println(jo.printStats());
 				//playClip (1);			// play clip if jo hits minion
 				audioHandler.getClip(oof).play();
 			}
@@ -161,7 +158,7 @@ public class Minion extends Sprite{
 			}
 
 			try {					// take a rest if jo hits minion or
-				Thread.sleep (1000);		//   minion falls out of play.
+				Thread.sleep (500);		//   minion falls out of play.
 			}
 			catch (InterruptedException e) {};
 

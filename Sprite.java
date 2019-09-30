@@ -22,8 +22,21 @@ public class Sprite
 
     protected boolean visible;
 
-    public Sprite(){
+    protected Graphics2D g2;
+	protected GamePanel panel;
+	protected Dimension dimension;
+    protected Color backgroundColor;
+    
+    //protected Environment environment;
+
+    public Sprite(GamePanel p){
         visible = true;
+        panel = p;
+		Graphics g = panel.getGraphics ();
+		g2 = (Graphics2D) g;
+		backgroundColor = panel.getBackground ();
+        dimension = panel.getSize();
+        //environment = new Environment(p);
         System.out.println("sprite created!");
     }
     
@@ -80,5 +93,9 @@ public class Sprite
         val = (int) (Math.random() * ((max-min) + 1) + min);
         return val;
     }
+
+    public Rectangle2D.Double getBoundingRectangle() {
+		return new Rectangle2D.Double (x, y, width, height);
+	}
 
 }

@@ -16,7 +16,8 @@ public class Environment extends Sprite
     // sound file names
     private String bgm = "bgm.wav";
 
-    public Environment(){
+    public Environment(GamePanel p){
+        super(p);
         name = "environment";
         folderName = name; // accessible through imagehandler class
         width = 1280;

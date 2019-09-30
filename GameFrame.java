@@ -12,7 +12,8 @@ public class GameFrame extends JFrame implements ActionListener {
 	public GameFrame () {
 		setSize (1280, 720);
 		setTitle ("CnBT");
-
+		setResizable(false);
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		gamePanel = new GamePanel ();			// create the Game Panel
