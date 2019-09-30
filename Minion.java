@@ -36,6 +36,7 @@ public class Minion extends Sprite{
 
 	private String clack = "clack.au";
 	private String hitBat = "hitBat.au";
+	private String oof = "oof.wav";
 
 	private boolean facingLeft;
 	private boolean facingRight;
@@ -66,10 +67,9 @@ public class Minion extends Sprite{
 	}
 
 	private void initAudio(){
-        String bg = "clack.au";
-		this.audioHandler.loadClip(bg);
-		bg = "hitBat.au";
-        this.audioHandler.loadClip(bg);
+		this.audioHandler.loadClip(this.oof);
+		this.audioHandler.loadClip(this.clack);
+		this.audioHandler.loadClip(this.hitBat);
         System.out.println("initAudio for Minion:" + audioHandler.toString());
     }
 
@@ -153,7 +153,7 @@ public class Minion extends Sprite{
 				jo.setHealth(jo.getHealth()-1);
 				String s = jo.printStats();
 				//playClip (1);			// play clip if jo hits minion
-				audioHandler.getClip(hitBat).play();
+				audioHandler.getClip(oof).play();
 			}
 			else {					// play clip if minion falls out at bottom
 				//playClip (2);

@@ -26,26 +26,29 @@ public class Jo extends Player
 	private int XSTEP = 6;		// amount of pixels to move in one keystroke
 	private int YSTEP = 20;		// amount of pixels to jump in one keystroke
 	private int YPOS = 500;		// groundish
-
-	AudioClip hitWallSound = null;
 	
 	private static int score = 0;
 	private static int health = 10;
 
-	private String auPath = "Assets/sounds/";
+	private AudioHandler audioHandler;
+	private String oof = "oof.mp3";
 
     public Jo(GamePanel p){
 		super(p);
 		super.name = "Jo";
 		super.width = 40;
 		super.height = 60;
-        Random random = new Random();
-		// super.x = random.nextInt (dimension.width - width);
-		// super.y = YPOS;
 		super.x = 1200;
 		super.y = YPOS;
-        
+		
+		audioHandler = new AudioHandler("jo");
+		//initAudio();
         System.out.println("Jo created! " + this.toString());
+	}
+	
+	private void initAudio(){
+		this.audioHandler.loadClip(oof);
+        System.out.println("initAudio for Minion:" + audioHandler.toString());
     }
 
     public void draw (Graphics2D g2) {
@@ -93,7 +96,7 @@ public class Jo extends Player
 
 		if (x < 0) {					// hits left wall
 			x = 0;
-			playClip (1);
+			//playClip (1);
 		}
     }
     public void moveRight () {
@@ -106,7 +109,7 @@ public class Jo extends Player
 
 		if (x + width >= dimension.width) {		// hits right wall
 			x = dimension.width - width;
-			playClip (1);
+			//playClip (1);
 		}
 
 		facingRight = true;
@@ -115,24 +118,6 @@ public class Jo extends Player
 
     public Rectangle2D.Double getBoundingRectangle() {
 		return new Rectangle2D.Double (x, y, width, height);
-	}
-    
-    public void loadClips() {
-
-		try {
-			hitWallSound = Applet.newAudioClip (
-				getClass().getResource(auPath + "hitWall.au")
-			);
-		}
-		catch (Exception e) {
-			System.out.println ("Error loading sound file: " + e);
-		}
-
-	}
-
-	public void playClip(int index) {
-		if (index == 1 && hitWallSound != null)
-			hitWallSound.play();
 	}
 	
 	public int getHealth(){
