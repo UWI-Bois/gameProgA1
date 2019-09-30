@@ -11,41 +11,66 @@ import java.awt.event.*;
 import java.awt.*;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
-this class will represent the player/MC(main character).
-	- a blue Rectangle
-	- can shoot a weapon 
+this class will represent the main enemy boss man
+	- a red Rectangle
 	- can jump
 	- can move left and right
 */
 public class Dio extends Player
 {
-	private boolean facingLeft;
-	private boolean facingRight;
-	private int XSTEP = 6;		// amount of pixels to move in one keystroke
-	private int YSTEP = 20;		// amount of pixels to jump in one keystroke
-	private int YPOS = 500;		// groundish
-
-	AudioClip hitWallSound = null;
+	private List<Missile> missiles;
+	GamePanel panel;
 	
 	private static int score = 0;
 	private static int health = 10;
 
-	private String auPath = "Assets/sounds/";
+	private AudioHandler audioHandler;
+	private boolean canShoot;
 
     public Dio(GamePanel p){
 		super(p);
+		panel = p;
+		XSTEP = 6;
+		YSTEP = 20;
 		super.name = "Dio";
 		super.width = 40;
 		super.height = 60;
-        Random random = new Random();
-		// super.x = random.nextInt (dimension.width - width);
-		// super.y = YPOS;
 		super.x = 1200;
-		super.y = YPOS;
-        
+		super.y = 95;
+		canShoot = false;
+
+		this.missiles = new ArrayList<>();
+		
+		//audioHandler = new AudioHandler("dio");
+		//initAudio();
         System.out.println("Dio created! " + this.toString());
+	}
+
+	public List<Missile> getMissiles(){return this.missiles;}
+
+	public boolean getCanShoot(){return this.canShoot;}
+	public void setCanShoot(boolean v){this.canShoot = v;}
+
+	public void fire(){
+		this.canShoot = true;
+		int xV = x + width;
+		if(facingRight) xV = xV*-1;
+		missiles.add(new Missile(
+			panel,
+			xV, 
+			y+height / 2
+		));
+		// play sound
+		System.out.println("ORA!");
+	}
+	
+	private void initAudio(){
+		//this.audioHandler.loadClip(oof);
+        System.out.println("initAudio for Minion:" + audioHandler.toString());
     }
 
     public void draw (Graphics2D g2) {
@@ -69,7 +94,7 @@ public class Dio extends Player
 		y = y + YSTEP;
 
 		if(y > 0){
-			y = YPOS;
+			y = this.environment.getGround();
 		}
 	}
 	
@@ -79,7 +104,7 @@ public class Dio extends Player
 		y = y - YSTEP;
 
 		if(y < 0){
-			y = YPOS;
+			y = this.environment.getGround();
 		}
 	}
     
@@ -93,7 +118,7 @@ public class Dio extends Player
 
 		if (x < 0) {					// hits left wall
 			x = 0;
-			playClip (1);
+			//playClip (1);
 		}
     }
     public void moveRight () {
@@ -106,47 +131,17 @@ public class Dio extends Player
 
 		if (x + width >= dimension.width) {		// hits right wall
 			x = dimension.width - width;
-			playClip (1);
+			//playClip (1);
 		}
 
 		facingRight = true;
 		facingLeft = false;
     }
-
-    public Rectangle2D.Double getBoundingRectangle() {
-		return new Rectangle2D.Double (x, y, width, height);
-	}
-    
-    public void loadClips() {
-
-		try {
-			hitWallSound = Applet.newAudioClip (
-				getClass().getResource(auPath + "hitWall.au")
-			);
-		}
-		catch (Exception e) {
-			System.out.println ("Error loading sound file: " + e);
-		}
-
-	}
-
-	public void playClip(int index) {
-		if (index == 1 && hitWallSound != null)
-			hitWallSound.play();
-	}
 	
-	public int getHealth(){
-		return this.health;
-	}
-	public int getScore(){
-		return this.score;
-	}
-	public void setHealth(int v){
-		this.health = v;
-	}
-	public void setScore(int v){
-		this.score = v;
-	}
+	public int getHealth(){return this.health;}
+	public int getScore(){return this.score;}
+	public void setHealth(int v){this.health = v;}
+	public void setScore(int v){this.score = v;}
 
 	public String printStats(){
 		String s = "HP: "
@@ -154,7 +149,7 @@ public class Dio extends Player
 			+ "\nScore: "
 			+ this.score;
 
-		System.out.println(s);
+		//System.out.println(s);
 		return s;
 	}
 	
