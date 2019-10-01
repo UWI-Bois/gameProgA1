@@ -31,11 +31,12 @@ public class Sprite
 	protected static int worth;
 	protected static int health;
     
-    //protected Environment environment;
+    protected Environment environment;
 
     public Sprite(GamePanel p){
         visible = true;
         panel = p;
+        environment = p.getEnvironment();
 		Graphics g = panel.getGraphics ();
 		g2 = (Graphics2D) g;
 		backgroundColor = panel.getBackground ();

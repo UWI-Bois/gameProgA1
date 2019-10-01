@@ -41,7 +41,7 @@ public class Minion extends Sprite{
 	private boolean facingLeft;
 	private boolean facingRight;
 
-	public Minion (GamePanel p, Jo b, Environment e) {
+	public Minion (GamePanel p) {
 		super(p);
 		super.name = "Minion";
 		super.width = 30;
@@ -53,8 +53,8 @@ public class Minion extends Sprite{
 		facingLeft = facingRight = false;
 
 		panel = p;
-		jo = b;
-		environment = e;
+		jo = p.getJo();
+		environment = p.getEnvironment();
 		Graphics g = panel.getGraphics ();
 		g2 = (Graphics2D) g;
 		dimension = panel.getSize();

@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Set;
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -17,6 +18,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener 
@@ -50,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
             while (isRunning) {
                 gameUpdate();
                 gameRender();
-                Thread.sleep (20); // increase value of sleep time to slow down minion
+                Thread.sleep (100); // increase value of sleep time to slow down minion
             }
         }
         catch(InterruptedException e) {}
@@ -114,6 +116,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
     private void updateMissiles() {
 
+        Set<Map.Entry<Integer, Missile>> set = jo.missiles.entrySet();
+		for(Map.Entry<Integer, Missile> m : set)
+		{
+            Missile missile = m.getValue();
+            if (missile.isVisible()) {
+                missile.move();
+            } else {
+                jo.missiles.remove(missile.getId());
+            }
+		}
         //List<Missile> missiles = jo.getMissiles();
 
         for (int i = 0; i < jo.missiles.size(); i++) {
@@ -134,12 +146,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     }
 
     private void drawMissiles(Graphics2D g2){
-            //List<Missile> missiles = jo.getMissiles();
-
-            for (Missile missile : jo.missiles) {
-                missile.draw(g2);
-                //missile.move();
-            }
+        Set<Map.Entry<Integer, Missile>> set = jo.missiles.entrySet();
+		for(Map.Entry<Integer, Missile> m : set)
+		{
+			m.getValue().draw(g2);
+		}
     }
 
     public void gameUpdate () {
@@ -171,8 +182,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
         if (gameThread == null) {
             isRunning = true;
             jo = new Jo (this);
-            dio = new Dio (this, jo);
-            minion = new Minion (this, jo, environment);
+            dio = new Dio (this);
+            minion = new Minion (this);
             environment.getAudioHandler().getClip("bgm.wav").loop();
             gameThread = new Thread(this);
             gameThread.start();
@@ -187,5 +198,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
             //playSound.stop();
         }
     }
+
+    public Environment getEnvironment(){return this.environment;}
+    public Jo getJo(){return this.jo;}
+    public Dio getDio(){return this.dio;}
+    public Minion getMinion(){return this.minion;}
 
 }

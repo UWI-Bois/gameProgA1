@@ -20,11 +20,13 @@ public class Missile extends Sprite
     private int boardWidth;
     private Color color = null;
     private Rectangle2D shape = null;
-    private Environment environment;
+    private Environment environment = null;
+    private int id;
+    private static int idCounter = 0;
     
     public Missile(GamePanel p, int x, int y){
         super(p);
-        environment = new Environment(p);
+        environment = p.getEnvironment();
         super.x = x;
         super.y = y;
         width = 20;
@@ -33,6 +35,8 @@ public class Missile extends Sprite
         this.color = Color.ORANGE;
         this.shape = new Rectangle2D.Double (x, y, width, height);
         initMissile();
+        this.id = idCounter;
+        idCounter++;
         System.out.println("missile created!");
     }
 
@@ -41,18 +45,18 @@ public class Missile extends Sprite
 
     public void initMissile(){
         g2.setColor(this.color);
-		g2.fill (this.shape);
+        g2.fill (this.shape);
     }
 
     public void draw(Graphics2D g2) {
-		g2.setColor(color);
-		g2.fill(new Rectangle2D.Double(x, y, width, height));
-	}
+        g2.setColor(color);
+        g2.fill(new Rectangle2D.Double(x, y, width, height));
+    }
 
     public void erase (Graphics2D g2) {
-		g2.setColor (backgroundColor);
-		g2.fill (new Rectangle2D.Double (x, y, width, height));
-	}
+        g2.setColor (backgroundColor);
+        g2.fill (new Rectangle2D.Double (x, y, width, height));
+    }
 
     public void move(){
         x += MISSILE_SPEED;
@@ -61,4 +65,6 @@ public class Missile extends Sprite
             visible = true;
         }
     }
+
+    public int getId(){return this.id;}
 }

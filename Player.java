@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class Player extends Sprite
 {
@@ -19,10 +20,8 @@ public abstract class Player extends Sprite
 	protected ImageHandler imageHandler;
 	protected boolean canShoot;
 	
-	protected ArrayList<Missile> missiles;
+	protected ConcurrentHashMap<Integer,Missile> missiles;
 	protected GamePanel panel;
-
-	protected Environment environment;
 
 	public Player (GamePanel p, String name) {
 		super(p);
@@ -30,10 +29,10 @@ public abstract class Player extends Sprite
 		facingLeft = true;
 		facingRight = false;
 		movingLeft = movingRight = false;
-		environment = new Environment(p);
+		
 		canShoot = false;
 		super.name = name;
-		missiles = new ArrayList<Missile>();
+		missiles = new ConcurrentHashMap<Integer,Missile>();
 		audioHandler = new AudioHandler(name);
 		imageHandler = new ImageHandler(name);
 		System.out.println("Player created! Name: " + name);
@@ -46,8 +45,7 @@ public abstract class Player extends Sprite
 	}
 
 	public void idle() {
-		if (!panel.isVisible())
-			return;
+		if (!panel.isVisible()) return;
 		facingLeft = false;
 		facingRight = false;
 		movingLeft = false;
@@ -110,14 +108,14 @@ public abstract class Player extends Sprite
 	// missile stuff
 	public void fire() {
 		int xV = x + width;
-		if (facingRight)
-			xV = xV * -1;
-		missiles.add(new Missile(panel, xV, y + height / 2));
+		if (facingRight) xV = xV * -1;
+		Missile m = new Missile(panel, xV, y + height / 4);
+		missiles.put(m.getId(), m);
 		// play sound
 		System.out.println("ORA!");
 	}
 
-	public List<Missile> getMissiles() {return this.missiles;}
+	public ConcurrentHashMap<Integer,Missile> getMissiles() {return this.missiles;}
 
 	public boolean getCanShoot() {return this.canShoot;}
 

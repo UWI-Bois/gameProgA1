@@ -30,7 +30,7 @@ public class Dio extends Player {
 
 	private Jo jo;
 
-	public Dio(GamePanel p, Jo j) {
+	public Dio(GamePanel p) {
 		super(p, "dio");
 		DY = 10;
 		DX = 10;
@@ -38,8 +38,7 @@ public class Dio extends Player {
 		super.height = 60;
 		super.x = 1190;
 		super.y = 40;
-		
-		jo = j;
+		jo = p.getJo();
 
 		initAudio(); // make an abstract class in player
 		//System.out.println("Dio created! " + this.toString());
