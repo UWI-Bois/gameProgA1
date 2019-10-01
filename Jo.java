@@ -16,34 +16,35 @@ import java.util.List;
 
 /*
 this class will represent the player/MC(main character).
-	- a blue Rectangle
-	- can shoot a projectile in the direction he is facing 
-	- can jump
-	- can move left and right
+    - a blue Rectangle
+    - can shoot a projectile in the direction he is facing 
+    - can jump
+    - can move left and right
 */
 public class Jo extends Player
 {
-
+    
     public Jo(GamePanel p){
-		super(p, "jo");
-		DX = 6;
-		DY = 20;
-		super.width = 40;
-		super.height = 60;
-		super.x = 1200;
-		super.y = environment.getGround();
-		//initAudio();
+        super(p, "jo");
+        DX = 6;
+        DY = 20;
+        super.width = 40;
+        super.height = 60;
+        super.x = 1200;
+        super.y = environment.getGround();
+        health = 10;
+        //initAudio();
         //System.out.println("Jo created! " + this.toString());
-	}
-	
-	private void initAudio(){
-		//this.audioHandler.loadClip(oof);
+    }
+    
+    private void initAudio(){
+        //this.audioHandler.loadClip(oof);
         System.out.println("initAudio for " + name + audioHandler.toString());
     }
 
     public void draw (Graphics2D g2) {
-		g2.setColor (Color.BLUE);
-		g2.fill (new Rectangle2D.Double (x, y, width, height));
+        g2.setColor (Color.BLUE);
+        g2.fill (new Rectangle2D.Double (x, y, width, height));
     }
-	
+    
 }

@@ -13,6 +13,7 @@ public abstract class Player extends Sprite
 
 	protected boolean facingLeft;
 	protected boolean facingRight;
+	protected boolean movingLeft, movingRight;
 
 	protected AudioHandler audioHandler;
 	protected ImageHandler imageHandler;
@@ -28,6 +29,7 @@ public abstract class Player extends Sprite
 		panel = p;
 		facingLeft = true;
 		facingRight = false;
+		movingLeft = movingRight = false;
 		environment = new Environment(p);
 		canShoot = false;
 		super.name = name;
@@ -48,6 +50,8 @@ public abstract class Player extends Sprite
 			return;
 		facingLeft = false;
 		facingRight = false;
+		movingLeft = false;
+		movingRight = false;
 	}
 	public void land() {
 		if (!panel.isVisible())
@@ -105,7 +109,6 @@ public abstract class Player extends Sprite
 
 	// missile stuff
 	public void fire() {
-		this.canShoot = true;
 		int xV = x + width;
 		if (facingRight)
 			xV = xV * -1;

@@ -44,10 +44,10 @@ public class Missile extends Sprite
 		g2.fill (this.shape);
     }
 
-    public void draw (Graphics2D g2) {
-		g2.setColor (color);
-		g2.fill (shape);
-    }
+    public void draw(Graphics2D g2) {
+		g2.setColor(color);
+		g2.fill(new Rectangle2D.Double(x, y, width, height));
+	}
 
     public void erase (Graphics2D g2) {
 		g2.setColor (backgroundColor);
@@ -56,6 +56,7 @@ public class Missile extends Sprite
 
     public void move(){
         x += MISSILE_SPEED;
+        //System.out.println(x);
         if(x > boardWidth){
             visible = true;
         }
