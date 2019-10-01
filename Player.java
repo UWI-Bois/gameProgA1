@@ -18,7 +18,7 @@ public abstract class Player extends Sprite
 	protected ImageHandler imageHandler;
 	protected boolean canShoot;
 	
-	protected List<Missile> missiles;
+	protected ArrayList<Missile> missiles;
 	protected GamePanel panel;
 
 	protected Environment environment;
@@ -31,6 +31,7 @@ public abstract class Player extends Sprite
 		environment = new Environment(p);
 		canShoot = false;
 		super.name = name;
+		missiles = new ArrayList<Missile>();
 		audioHandler = new AudioHandler(name);
 		imageHandler = new ImageHandler(name);
 		System.out.println("Player created! Name: " + name);

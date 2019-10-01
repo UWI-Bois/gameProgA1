@@ -137,8 +137,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		//List<Missile> missiles = jo.getMissiles();
 
         for (Missile missile : missiles) {
-			missile.draw(g2);
 			missile.move();
+			missile.draw(g2);
+			//missile.move();
         }
 	}
 
