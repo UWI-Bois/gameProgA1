@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Timer; 
+import java.util.TimerTask; 
 
 public class Environment extends Sprite
 {
@@ -16,6 +18,11 @@ public class Environment extends Sprite
     // sound file names
     private String bgm = "bgm.wav";
 
+    protected Timer timer;
+    protected  static int timerCount = 0;
+    protected TimerTask timerTask;
+    protected boolean canDio;
+
     public Environment(GamePanel p){
         super(p);
         name = "environment";
@@ -23,10 +30,35 @@ public class Environment extends Sprite
         width = 1280;
         height = 720;
         ground = 500;
+        canDio = false;
+        timer = new Timer();
+        timerTask = new TimerTask(){
+        
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                timerCount++;
+                //System.out.println("timercount: " + timerCount);
+                canDio = true;
+            }
+        };
+        timer.schedule(timerTask, 5);
+        //timer.scheduleAtFixedRate(timerTask, 0, 5*1000); // run every second? // 2 mins = 120000
+
         imageHandler = new ImageHandler(folderName);
         audioHandler = new AudioHandler(folderName);
         initImages();
         initAudio();
+    }
+
+    public int getTimerCount(){return this.timerCount;}
+
+    public boolean getCanDio(){return this.canDio;}
+    public void setCanDio(boolean v){this.canDio = v;}
+
+    public boolean check2Mins(){
+        if(this.timerCount >= 5000) canDio = true;
+        return canDio;
     }
 
     private void initImages(){
@@ -57,10 +89,15 @@ public class Environment extends Sprite
 
 
     //main for testing
-    // public static void main(String[] args) {
-    //     Environment e = new Environment();
-    //     System.out.println(e.toString());
-    //     e.audioHandler.playClip("bgm.wav");
-    //     System.out.println("end e test");
-    // }
+    public static void main(String[] args) {
+        GamePanel p = new GamePanel();
+        Environment e = new Environment(p);
+        System.out.println(e.toString());
+        e.audioHandler.playClip("bgm.wav");
+        for (int i = 0; i < 200; i++) {
+            //System.out.println(e.getTimerCount());
+        }
+        System.out.println("2mins: " + e.check2Mins());
+        System.out.println("end e test");
+    }
 }

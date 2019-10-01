@@ -26,6 +26,10 @@ public class Sprite
 	protected GamePanel panel;
 	protected Dimension dimension;
     protected Color backgroundColor;
+
+    protected static int score;
+	protected static int worth;
+	protected static int health;
     
     //protected Environment environment;
 

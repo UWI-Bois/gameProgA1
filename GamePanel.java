@@ -26,8 +26,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	private Minion minion = null;
 	private Environment environment;
 	private String stats;
-	//private Timer timer;
-	private int delay;
 
 	private Thread gameThread;
 	boolean isRunning;
@@ -42,10 +40,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
 		gameThread = null;
 		isRunning = false;
-		delay = 10;
 		missiles = new ArrayList<Missile>();
-		//timer = new Timer(delay, this);
-		//timer.start();
 		System.out.println("GP created!");
 	}
 
@@ -149,7 +144,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
 	public void gameUpdate () {
 		minion.move();
-		dio.move();
+		if(environment.check2Mins()) dio.move();
+		//dio.move();
 		if(jo.getCanShoot()){
 			drawMissiles();
 			updateMissiles();
@@ -166,7 +162,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		);		// draw the background image
 		minion.draw(g2);					// draw the minion
 		jo.draw(g2);
-		dio.draw(g2);					// draw the jo
+		dio.draw(g2);
+		environment.timerTask.run();	
 		//stats = jo.printStats();
 	}	
 
