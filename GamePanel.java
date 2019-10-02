@@ -158,7 +158,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		}
     }
 
-    private boolean musicUpdater = false;
     public void gameUpdate () {
         minion.move();
         if(environment.getCanDio()) dio.move();
@@ -202,7 +201,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
         if (isRunning) {
             isRunning = false;
-            environment.getAudioHandler().getClip("bgm.wav").stop();
+            environment.getAudioHandler().getClip("giorno.wav").stop();
             //playSound.stop();
         }
     }

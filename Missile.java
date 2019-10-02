@@ -27,6 +27,7 @@ public class Missile extends Sprite
 
     private Minion minion;
     private Jo jo;
+    private Dio dio;
     
     public Missile(GamePanel p, int x, int y){
         super(p);
@@ -45,6 +46,7 @@ public class Missile extends Sprite
         idCounter++;
         minion = p.getMinion();
         jo = p.getJo();
+        dio = p.getDio();
         //System.out.println("missile created!");
     }
 
@@ -75,7 +77,9 @@ public class Missile extends Sprite
             visible = true; // might have to change to true
         }
         boolean hitMinion = missileHitsMinion();
+        boolean hitDio = missileHitsDio();
         if(hitMinion){
+            this.yeetMissile();
             int hp = minion.getHealth();
             hp-=this.getDamage();
             minion.setHealth(hp);
@@ -84,6 +88,19 @@ public class Missile extends Sprite
                 minion.yeet();
                 jo.addScore(minion.getWorth());
                 System.out.println("Minion Slain!\nJo Stats:\n" + jo.toString() + "\nMinion Stats: " + minion.toString());
+            }
+        }
+        if(hitDio){
+            this.yeetMissile();
+            dio.getAudioHandler().getClip(dio.wry).play();
+            int hp = dio.getHealth();
+            hp-=this.getDamage();
+            dio.setHealth(hp);
+            // dio dies
+            if(hp <= 0){
+                dio.yeet();
+                jo.addScore(dio.getWorth());
+                System.out.println("Dio Slain!\nJo Stats:\n" + jo.toString() + "\ndio Stats: " + dio.toString());
             }
         }
     }
@@ -99,7 +116,23 @@ public class Missile extends Sprite
 			return true;
 		else
 			return false;
-	}
+    }
+    public boolean missileHitsDio () {
+
+		Rectangle2D.Double rectMinion = dio.getBoundingRectangle();
+		Rectangle2D.Double rectMissile = this.getBoundingRectangle();
+		
+		if (rectMissile.intersects(rectMinion))
+			return true;
+		else
+			return false;
+    }
+    
+    public void yeetMissile(){
+        x = -200;
+        y = -200;
+        isDead = true;
+    }
 
     public Rectangle2D.Double getBoundingRectangle() {return new Rectangle2D.Double (x, y, width, height);}
 

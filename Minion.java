@@ -117,8 +117,6 @@ public class Minion extends Sprite{
 			return false;
 	}
 
-	
-
 	public boolean isOffScreen () {
 		if (y + height > dimension.height)
 			return true;
