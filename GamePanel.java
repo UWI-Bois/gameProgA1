@@ -1,16 +1,8 @@
-import java.util.Random;
 import java.util.Set;
-import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 import javax.swing.JPanel;
-import java.applet.Applet;
-import java.io.File;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import java.applet.AudioClip;
 import java.awt.event.*;
 import java.awt.*;
@@ -19,14 +11,16 @@ import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener 
 {                   
     private Jo jo = null;
     private Dio dio = null;
     private Minion minion = null;
+    private ConcurrentHashMap<Integer, Minion> minions;
     private Environment environment;
+    private int tSpeed; // thread sleep int
 
     private Thread gameThread;
     boolean isRunning;
@@ -37,7 +31,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
         addKeyListener(this);           // respond to key events
         setFocusable(true);
         requestFocus();             // the GamePanel now has focus, so receives key events
-
+        tSpeed = 100;
         gameThread = null;
         isRunning = false;
         System.out.println("GP created!");
@@ -51,7 +45,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
             while (isRunning) {
                 gameUpdate();
                 gameRender();
-                Thread.sleep (100); // increase value of sleep time to slow down minion
+                if(environment.getTimerCount() == environment.dioTimer){
+                    environment.getAudioHandler().getClip(environment.bgm).stop();
+                    dio.getAudioHandler().getClip(dio.zaWarudo).play();
+                    environment.getAudioHandler().getClip(environment.giorno).loop();
+                }
+                Thread.sleep (tSpeed); // increase value of sleep time to slow down minion
             }
         }
         catch(InterruptedException e) {}
@@ -151,7 +150,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 			m.getValue().draw(g2);
 		}
     }
+    private void drawMinions(Graphics2D g2){
+        Set<Map.Entry<Integer, Minion>> set = minions.entrySet();
+		for(Map.Entry<Integer, Minion> m : set)
+		{
+			m.getValue().draw(g2);
+		}
+    }
 
+    private boolean musicUpdater = false;
     public void gameUpdate () {
         minion.move();
         if(environment.getCanDio()) dio.move();
@@ -184,6 +191,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
             jo = new Jo (this);
             dio = new Dio (this);
             minion = new Minion (this);
+            minions = new ConcurrentHashMap<Integer, Minion>();
             environment.getAudioHandler().getClip("bgm.wav").loop();
             gameThread = new Thread(this);
             gameThread.start();
@@ -203,5 +211,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     public Jo getJo(){return this.jo;}
     public Dio getDio(){return this.dio;}
     public Minion getMinion(){return this.minion;}
+    public ConcurrentHashMap getMinions(){return this.minions;}
 
 }

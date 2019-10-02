@@ -72,7 +72,7 @@ public class Missile extends Sprite
         x += MISSILE_SPEED;
         //System.out.println(x);
         if(x > boardWidth){
-            visible = true;
+            visible = true; // might have to change to true
         }
         boolean hitMinion = missileHitsMinion();
         if(hitMinion){
@@ -81,7 +81,7 @@ public class Missile extends Sprite
             minion.setHealth(hp);
             // minion dies
             if(hp <= 0){
-                minion.yeet();;
+                minion.yeet();
                 jo.addScore(minion.getWorth());
                 System.out.println("Minion Slain!\nJo Stats:\n" + jo.toString() + "\nMinion Stats: " + minion.toString());
             }

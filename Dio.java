@@ -24,16 +24,18 @@ this class will represent the main enemy boss man
 */
 public class Dio extends Player {
 
-	private String clack = "clack.au";
-	private String hitBat = "hitBat.au";
-	private String oof = "oof.wav";
+	public String wry = "wry.wav";
+	public String timeResumes = "time-resumes.wav";
+	public String zaWarudo = "za-warudo.wav";
 
 	private Jo jo;
 
 	public Dio(GamePanel p) {
 		super(p, "dio");
 		DY = 15;
-		DX = 10;
+		DX = 5;
+		health = 20;
+		facingLeft = true;
 		super.width = 40;
 		super.height = 60;
 		super.x = 1190;
@@ -45,9 +47,9 @@ public class Dio extends Player {
 	}
 
 	private void initAudio() {
-		this.audioHandler.loadClip(this.oof);
-		this.audioHandler.loadClip(this.clack);
-		this.audioHandler.loadClip(this.hitBat);
+		this.audioHandler.loadClip(this.wry);
+		this.audioHandler.loadClip(this.zaWarudo);
+		this.audioHandler.loadClip(this.timeResumes);
 		System.out.println("initAudio for Dio:" + audioHandler.toString());
 	}
 
@@ -92,11 +94,11 @@ public class Dio extends Player {
 				// String s = jo.printStats();
 				System.out.println(jo.printStats());
 				//playClip (1);			// play clip if jo hits minion
-				audioHandler.getClip(oof).play();
+				audioHandler.getClip(zaWarudo).play();
 			}
 			else {					// play clip if minion falls out at bottom
 				//playClip (2);
-				audioHandler.getClip(clack).play();
+				audioHandler.getClip(wry).play();
 			}
 
 			try {					// take a rest if jo hits minion or

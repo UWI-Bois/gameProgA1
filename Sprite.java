@@ -16,11 +16,14 @@ public class Sprite
 {
     protected int x;    // pos on the board
     protected int y;
+    protected int DX;		// amount of pixels to move in one keystroke
+	protected int DY;		// amount of pixels to jump in one keystroke
     protected int width; // size of entity
 	protected int height;
     protected String name;
 
     protected boolean visible;
+    protected boolean isDead;
 
     protected Graphics2D g2;
 	protected GamePanel panel;
@@ -39,14 +42,15 @@ public class Sprite
 
     public Sprite(GamePanel p){
         visible = true;
-        facingRight = false;
+        facingRight = facingLeft = false;
 		movingLeft = movingRight = false;
         panel = p;
         environment = p.getEnvironment();
 		Graphics g = panel.getGraphics ();
 		g2 = (Graphics2D) g;
 		backgroundColor = panel.getBackground ();
-        dimension = panel.getSize();
+        dimension = panel.getSize(); 
+        isDead = false;
         //environment = new Environment(p);
         System.out.println("sprite created!");
     }
@@ -100,7 +104,83 @@ public class Sprite
 
     public Rectangle2D.Double getBoundingRectangle() {
 		return new Rectangle2D.Double (x, y, width, height);
+    }
+    
+    public void yeet(){
+		x = -100;
+		y = -100;
+		DY = 0;
+        DX = 0;
+        isDead = true;
+    }
+    
+    public void erase(Graphics2D g2) {
+		g2.setColor(backgroundColor);
+		g2.fill(new Rectangle2D.Double(x, y, width, height));
 	}
+
+	public void idle() {
+		if (!panel.isVisible()) return;
+		facingLeft = false;
+		facingRight = false;
+		movingLeft = false;
+		movingRight = false;
+	}
+
+	public void land() {
+		if (!panel.isVisible())
+			return;
+
+		y = y + DY;
+
+		if (y > 0) {
+			y = this.environment.getGround();
+		}
+	}
+
+	public void jump() {
+		if (!panel.isVisible())
+			return;
+
+		y = y - DY;
+
+		if (y < 0) {
+			y = this.environment.getGround();
+		}
+	}
+	public void moveLeft () {
+        if(isDead) return;
+		if (!panel.isVisible ()) return;
+
+		// erase();					// no need to erase with background image
+
+		x = x - DX;
+
+		if (x < 0) {					// hits left wall
+			x = 0;
+			//playClip (1);
+		}
+		facingRight = false;
+		facingLeft = true;
+	}
+	
+    public void moveRight () {
+        if(isDead) return;
+
+		if (!panel.isVisible ()) return;
+
+		// erase();					// no need to erase with background image
+
+		x = x + DX;
+
+		if (x + width >= dimension.width) {		// hits right wall
+			x = dimension.width - width;
+			//playClip (1);
+		}
+
+		facingRight = true;
+		facingLeft = false;
+    }
 
     
 

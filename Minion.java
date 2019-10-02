@@ -17,9 +17,9 @@ import java.awt.Image;
 		- give jo 1 point when he kills it
 */
 
-public class Minion extends Sprite{	
-	private static int DY;
-	private static int DX;
+public class Minion extends Sprite{
+	private int id;
+    private static int idCounter = 0;
 
 	Graphics2D g2;
 	private GamePanel panel;
@@ -31,9 +31,9 @@ public class Minion extends Sprite{
 	private Jo jo;
 	private Environment environment;
 
-	private String clack = "clack.au";
-	private String hitBat = "hitBat.au";
-	private String oof = "oof.wav";
+	public String clack = "clack.au";
+	public String hitBat = "hitBat.au";
+	public String oof = "oof.wav";
 
 	public Minion (GamePanel p) {
 		super(p);
@@ -42,6 +42,8 @@ public class Minion extends Sprite{
 		DX = 5;
 		DY = 7;
 		y = 80;
+		id = idCounter;
+		idCounter++;
 		health = getRandomInt(0, 4); // return a random int between 0 and 4
 		worth = health;
 		facingLeft = facingRight = false;
@@ -62,6 +64,8 @@ public class Minion extends Sprite{
 		System.out.println("minion created!" + this.toString());
 	}
 
+	public int getId(){return this.id;}
+
 	private void initAudio(){
 		this.audioHandler.loadClip(this.oof);
 		this.audioHandler.loadClip(this.clack);
@@ -79,14 +83,14 @@ public class Minion extends Sprite{
 	private void setPosition () {
 		// spawn locations based on bgimage: 95,95 - 60,130 // 190,95 - 215,130
 		int r = getRandomInt(0, 7);	// roll a dice.
-		if(r % 2 == 0) spawn1();
-		else spawn2();						// set y to top of the panel
+		if(r % 2 == 0) spawnArea1();
+		else spawnArea2();						// set y to top of the panel
 	}
 
-	private void spawn1(){
+	private void spawnArea1(){
 		x = 870;
 	}
-	private void spawn2(){
+	private void spawnArea2(){
 		x = 1000;
 	}
 
@@ -101,12 +105,6 @@ public class Minion extends Sprite{
 		g2.fill (new Ellipse2D.Double (x, y, width, height));
 	}
 
-	public void yeet(){
-		x = -100;
-		y = -100;
-		DY = 0;
-		DX= 0;
-	}
 
 	public boolean playerHitsMinion () {
 

@@ -16,13 +16,16 @@ public class Environment extends Sprite
     // image file names
     private String bgImage = "background.png";
     // sound file names
-    private String bgm = "bgm.wav";
+    public String bgm = "bgm.wav";
+    public String giorno = "giorno.wav";
+    public String jojo = "jojo.wav";
 
     protected Timer timer;
     protected  static int timerCount = 0;
     protected TimerTask timerTask;
     protected boolean canDio;
-    protected int dioTimer = 60; // time to wait before dio moves
+    protected boolean canGiorno;
+    protected int dioTimer = 5; // time to wait before dio moves
 
     public Environment(GamePanel p){
         super(p);
@@ -57,6 +60,8 @@ public class Environment extends Sprite
 
     public boolean getCanDio(){return this.canDio;}
     public void setCanDio(boolean v){this.canDio = v;}
+    public boolean getCanGiorno(){return this.canGiorno;}
+    public void setCanGiorno(boolean v){this.canGiorno = v;}
 
     public void checkDio(){
         if(this.timerCount >= dioTimer){
@@ -67,6 +72,10 @@ public class Environment extends Sprite
     public void spawnMinions(){
         if(timerCount % 3 == 0){
             // spawn minions? perhaps some kinda jokey thing?
+            int r = getRandomInt(0, 7); // roll d dice 
+            // spawn1();
+            // spawn2();
+            // spawn3();
         }
     }
 
@@ -77,6 +86,8 @@ public class Environment extends Sprite
 
     private void initAudio(){
         this.audioHandler.loadClip(bgm);
+        this.audioHandler.loadClip(jojo);
+        this.audioHandler.loadClip(giorno);
         System.out.println("initAudio for Environment:" + audioHandler.toString());
     }
 

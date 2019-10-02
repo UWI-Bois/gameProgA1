@@ -9,9 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class Player extends Sprite
 {
-	protected int DX;		// amount of pixels to move in one keystroke
-	protected int DY;		// amount of pixels to jump in one keystroke
-
 	protected AudioHandler audioHandler;
 	protected ImageHandler imageHandler;
 	protected boolean canShoot;
@@ -22,7 +19,6 @@ public abstract class Player extends Sprite
 	public Player (GamePanel p, String name) {
 		super(p);
 		panel = p;
-		facingLeft = true;
 		canShoot = false;
 		super.name = name;
 		missiles = new ConcurrentHashMap<Integer,Missile>();
@@ -32,73 +28,7 @@ public abstract class Player extends Sprite
 	}
 
 	public abstract void draw (Graphics2D g2);
-	public void erase(Graphics2D g2) {
-		g2.setColor(backgroundColor);
-		g2.fill(new Rectangle2D.Double(x, y, width, height));
-	}
-
-	public void idle() {
-		if (!panel.isVisible()) return;
-		facingLeft = false;
-		facingRight = false;
-		movingLeft = false;
-		movingRight = false;
-	}
-
-	public void land() {
-		if (!panel.isVisible())
-			return;
-
-		y = y + DY;
-
-		if (y > 0) {
-			y = this.environment.getGround();
-		}
-	}
-
-	public void jump() {
-		if (!panel.isVisible())
-			return;
-
-		y = y - DY;
-
-		if (y < 0) {
-			y = this.environment.getGround();
-		}
-	}
-	public void moveLeft () {
-
-		if (!panel.isVisible ()) return;
-
-		// erase();					// no need to erase with background image
-
-		x = x - DX;
-
-		if (x < 0) {					// hits left wall
-			x = 0;
-			//playClip (1);
-		}
-		facingRight = false;
-		facingLeft = true;
-	}
 	
-    public void moveRight () {
-
-		if (!panel.isVisible ()) return;
-
-		// erase();					// no need to erase with background image
-
-		x = x + DX;
-
-		if (x + width >= dimension.width) {		// hits right wall
-			x = dimension.width - width;
-			//playClip (1);
-		}
-
-		facingRight = true;
-		facingLeft = false;
-    }
-
 	public Rectangle2D.Double getBoundingRectangle() {return new Rectangle2D.Double (x, y, width, height);}
 
 	// missile stuff
@@ -128,5 +58,7 @@ public abstract class Player extends Sprite
 	}
 
 	// audio stuff
+	public ImageHandler getImageHandler(){return this.imageHandler;}
+    public AudioHandler getAudioHandler(){return this.audioHandler;}
 	///abstract void initAudio();
 }
