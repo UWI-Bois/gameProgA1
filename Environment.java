@@ -22,6 +22,7 @@ public class Environment extends Sprite
     protected  static int timerCount = 0;
     protected TimerTask timerTask;
     protected boolean canDio;
+    protected int dioTimer = 5; // time to wait before dio moves
 
     public Environment(GamePanel p){
         super(p);
@@ -38,12 +39,11 @@ public class Environment extends Sprite
             public void run() {
                 // TODO Auto-generated method stub
                 timerCount++;
-                //System.out.println("timercount: " + timerCount);
-                canDio = true;
+                System.out.println("timercount: " + timerCount);
+                checkDio();
+                spawnMinion();
             }
         };
-        //timer.schedule(timerTask, 5);
-        //timer.scheduleAtFixedRate(timerTask, 0, 5*1000); // run every second? // 2 mins = 120000
 
         imageHandler = new ImageHandler(folderName);
         audioHandler = new AudioHandler(folderName);
@@ -51,14 +51,18 @@ public class Environment extends Sprite
         initAudio();
     }
 
+    public void startTimer(){timer.scheduleAtFixedRate(timerTask, 0, 1*1000);}
+
     public int getTimerCount(){return this.timerCount;}
 
     public boolean getCanDio(){return this.canDio;}
     public void setCanDio(boolean v){this.canDio = v;}
 
-    public boolean check2Mins(){
-        if(this.timerCount >= 5000) canDio = true;
-        return canDio;
+    public void checkDio(){if(this.timerCount >= dioTimer) canDio = true;}
+    public void spawnMinion(){
+        if(timerCount % 3 == 0){
+            // spawn minions? perhaps some kinda jokey thing?
+        }
     }
 
     private void initImages(){
@@ -88,7 +92,7 @@ public class Environment extends Sprite
     }
 
 
-    //main for testing
+    // main for testing
     // public static void main(String[] args) {
     //     GamePanel p = new GamePanel();
     //     Environment e = new Environment(p);
@@ -97,7 +101,7 @@ public class Environment extends Sprite
     //     for (int i = 0; i < 200; i++) {
     //         //System.out.println(e.getTimerCount());
     //     }
-    //     System.out.println("2mins: " + e.check2Mins());
+    //     System.out.println("2mins: " + e.checkDio());
     //     System.out.println("end e test");
     // }
 }

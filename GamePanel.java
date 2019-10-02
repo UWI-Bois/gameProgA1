@@ -154,7 +154,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
     public void gameUpdate () {
         minion.move();
-        if(environment.check2Mins()) dio.move();
+        if(environment.getCanDio()) dio.move();
         //dio.move();
         updateJo();
         updateMissiles();
@@ -172,7 +172,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
         jo.draw(g2);
         dio.draw(g2);
         drawMissiles(g2);
-        environment.timerTask.run();    
+           
         //stats = jo.printStats();
     }   
 
@@ -180,6 +180,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
         if (gameThread == null) {
             isRunning = true;
+            environment.startTimer(); 
             jo = new Jo (this);
             dio = new Dio (this);
             minion = new Minion (this);
@@ -202,6 +203,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     public Jo getJo(){return this.jo;}
     public Dio getDio(){return this.dio;}
     public Minion getMinion(){return this.minion;}
-    // public Missile getMissile(){return this}
 
 }
