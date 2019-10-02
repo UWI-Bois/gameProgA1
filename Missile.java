@@ -81,7 +81,7 @@ public class Missile extends Sprite
             minion.setHealth(hp);
             // minion dies
             if(hp <= 0){
-                minion.erase(g2);
+                minion.yeet();;
                 jo.addScore(minion.getWorth());
                 System.out.println("Minion Slain!\nJo Stats:\n" + jo.toString() + "\nMinion Stats: " + minion.toString());
             }

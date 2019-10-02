@@ -101,6 +101,13 @@ public class Minion extends Sprite{
 		g2.fill (new Ellipse2D.Double (x, y, width, height));
 	}
 
+	public void yeet(){
+		x = -100;
+		y = -100;
+		DY = 0;
+		DX= 0;
+	}
+
 	public boolean playerHitsMinion () {
 
 		Rectangle2D.Double rectBall = getBoundingRectangle();
