@@ -74,33 +74,21 @@ public class Dio extends Player {
 			return false;
 	}
 
-	public void move() {
+	public void move () {
 
-		if (!panel.isVisible())
-			return;
+		if (!panel.isVisible ()) return;
 
-		boolean goLeft = false;
-		boolean goRight = false;
+		// boolean goLeft = false;
+		// boolean goRight = false;
 
-		if (y >= environment.getGround()) {
-			// the minion has landed, look for jo now
-			// x += DX;
-			if (x - jo.getX() < 0) { // jo is to your right
-				goRight = true;
-				goLeft = false;
-				moveRight();
-			} else { // jo is to your left
-				goRight = false;
-				goLeft = true;
-				moveLeft();
-			}
-		}
+		findJo();
 
 		boolean hitPlayer = playerHitsMinion();
+		// boolean hitMissile = 
 
 		if (hitPlayer || isOffScreen()) {
 			if (hitPlayer) {
-				jo.setHealth(jo.getHealth()-2);
+				jo.setHealth(jo.getHealth()-1);
 				// String s = jo.printStats();
 				System.out.println(jo.printStats());
 				//playClip (1);			// play clip if jo hits minion
@@ -112,13 +100,31 @@ public class Dio extends Player {
 			}
 
 			try {					// take a rest if jo hits minion or
-				Thread.sleep (500);		//   minion falls out of play.
+				Thread.sleep (100);		//   minion falls out of play.
 			}
 			catch (InterruptedException e) {};
 
 			//setPosition ();				// re-set position of minion
 		}
 		
+	}
+
+	public void findJo(){
+		if(y >= environment.getGround()){
+			// the minion has landed, look for jo now
+			//x += DX;
+			if(x - jo.getX() < 0){ // jo is to your right
+				// goRight = true;
+				// goLeft = false;
+				moveRight();
+			}
+			else{ // jo is to your left
+				// goRight = false;
+				// goLeft = true;
+				moveLeft();
+			}
+		}
+		else y = y + DY; // fall to the ground before seeking jo
 	}
 
 	

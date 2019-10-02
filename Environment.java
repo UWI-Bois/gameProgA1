@@ -22,7 +22,7 @@ public class Environment extends Sprite
     protected  static int timerCount = 0;
     protected TimerTask timerTask;
     protected boolean canDio;
-    protected int dioTimer = 5; // time to wait before dio moves
+    protected int dioTimer = 60; // time to wait before dio moves
 
     public Environment(GamePanel p){
         super(p);
@@ -41,7 +41,7 @@ public class Environment extends Sprite
                 timerCount++;
                 System.out.println("timercount: " + timerCount);
                 checkDio();
-                spawnMinion();
+                spawnMinions();
             }
         };
 
@@ -58,8 +58,13 @@ public class Environment extends Sprite
     public boolean getCanDio(){return this.canDio;}
     public void setCanDio(boolean v){this.canDio = v;}
 
-    public void checkDio(){if(this.timerCount >= dioTimer) canDio = true;}
-    public void spawnMinion(){
+    public void checkDio(){
+        if(this.timerCount >= dioTimer){
+            canDio = true;
+            System.out.println("action is coming");
+        }
+    }
+    public void spawnMinions(){
         if(timerCount % 3 == 0){
             // spawn minions? perhaps some kinda jokey thing?
         }

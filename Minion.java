@@ -164,7 +164,7 @@ public class Minion extends Sprite{
 		
 	}
 
-	private void findJo(){
+	public void findJo(){
 		if(y >= environment.getGround()){
 			// the minion has landed, look for jo now
 			//x += DX;
