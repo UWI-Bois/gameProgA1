@@ -32,7 +32,7 @@ public class Dio extends Player {
 
 	public Dio(GamePanel p) {
 		super(p, "dio");
-		DY = 10;
+		DY = 15;
 		DX = 10;
 		super.width = 40;
 		super.height = 60;
@@ -56,7 +56,7 @@ public class Dio extends Player {
 		g2.fill(new Rectangle2D.Double(x, y, width, height));
 	}
 
-	public boolean playerHitsBall() {
+	public boolean playerHitsMinion() {
 
 		Rectangle2D.Double rectBall = getBoundingRectangle();
 		Rectangle2D.Double rectPlayer = jo.getBoundingRectangle();
@@ -96,7 +96,7 @@ public class Dio extends Player {
 			}
 		}
 
-		boolean hitPlayer = playerHitsBall();
+		boolean hitPlayer = playerHitsMinion();
 
 		if (hitPlayer || isOffScreen()) {
 			if (hitPlayer) {

@@ -16,13 +16,17 @@ import java.util.List;
 
 public class Missile extends Sprite
 {
-    private int MISSILE_SPEED = 5;
+    private int MISSILE_SPEED;
+    private int damage;
     private int boardWidth;
     private Color color = null;
     private Rectangle2D shape = null;
     private Environment environment = null;
     private int id;
     private static int idCounter = 0;
+
+    private Minion minion;
+    private Jo jo;
     
     public Missile(GamePanel p, int x, int y){
         super(p);
@@ -31,17 +35,23 @@ public class Missile extends Sprite
         super.y = y;
         width = 20;
         height = 20;
+        MISSILE_SPEED = 10;
+        damage = 1;
         boardWidth = environment.width;
         this.color = Color.ORANGE;
         this.shape = new Rectangle2D.Double (x, y, width, height);
         initMissile();
         this.id = idCounter;
         idCounter++;
-        System.out.println("missile created!");
+        minion = p.getMinion();
+        jo = p.getJo();
+        //System.out.println("missile created!");
     }
 
     public int getSpeed(){return this.MISSILE_SPEED;}
     public void setSpeed(int speed){this.MISSILE_SPEED = speed;}
+    public int getDamage(){return this.damage;}
+    public void setDamage(int dmg){this.damage = dmg;}
 
     public void initMissile(){
         g2.setColor(this.color);
@@ -64,7 +74,33 @@ public class Missile extends Sprite
         if(x > boardWidth){
             visible = true;
         }
+        boolean hitMinion = missileHitsMinion();
+        if(hitMinion){
+            int hp = minion.getHealth();
+            hp-=this.getDamage();
+            minion.setHealth(hp);
+            // minion dies
+            if(hp <= 0){
+                minion.erase(g2);
+                jo.addScore(minion.getWorth());
+                System.out.println("Minion Slain!\nJo Stats:\n" + jo.toString() + "\nMinion Stats: " + minion.toString());
+            }
+        }
     }
 
     public int getId(){return this.id;}
+
+    public boolean missileHitsMinion () {
+
+		Rectangle2D.Double rectMinion = minion.getBoundingRectangle();
+		Rectangle2D.Double rectMissile = this.getBoundingRectangle();
+		
+		if (rectMissile.intersects(rectMinion))
+			return true;
+		else
+			return false;
+	}
+
+    public Rectangle2D.Double getBoundingRectangle() {return new Rectangle2D.Double (x, y, width, height);}
+
 }

@@ -31,25 +31,19 @@ public class Minion extends Sprite{
 	private Jo jo;
 	private Environment environment;
 
-	private static int health;
-	private int score;
-
 	private String clack = "clack.au";
 	private String hitBat = "hitBat.au";
 	private String oof = "oof.wav";
 
-	private boolean facingLeft;
-	private boolean facingRight;
-
 	public Minion (GamePanel p) {
 		super(p);
 		super.name = "Minion";
-		super.width = 30;
-		super.height = 40;
+		setSize();
 		DX = 5;
 		DY = 7;
+		y = 80;
 		health = getRandomInt(0, 4); // return a random int between 0 and 4
-		score = health;
+		worth = health;
 		facingLeft = facingRight = false;
 
 		panel = p;
@@ -75,20 +69,25 @@ public class Minion extends Sprite{
         System.out.println("initAudio for Minion:" + audioHandler.toString());
     }
 
-	public void setPosition () {
+	private void setSize () {
+		// spawn locations based on bgimage: 95,95 - 60,130 // 190,95 - 215,130
+		int w1 = getRandomInt(30, 40);	
+		int h1 = getRandomInt(40, 50);	
+		width = w1;
+		height = h1;
+	}
+	private void setPosition () {
 		// spawn locations based on bgimage: 95,95 - 60,130 // 190,95 - 215,130
 		int r = getRandomInt(0, 7);	// roll a dice.
 		if(r % 2 == 0) spawn1();
 		else spawn2();						// set y to top of the panel
 	}
 
-	public void spawn1(){
-		x = 200;
-		y = 100;
+	private void spawn1(){
+		x = 870;
 	}
-	public void spawn2(){
-		x = 90;
-		y = 100;
+	private void spawn2(){
+		x = 1000;
 	}
 
 	public void draw (Graphics2D g2) {
@@ -102,7 +101,7 @@ public class Minion extends Sprite{
 		g2.fill (new Ellipse2D.Double (x, y, width, height));
 	}
 
-	public boolean playerHitsBall () {
+	public boolean playerHitsMinion () {
 
 		Rectangle2D.Double rectBall = getBoundingRectangle();
 		Rectangle2D.Double rectPlayer = jo.getBoundingRectangle();
@@ -112,6 +111,8 @@ public class Minion extends Sprite{
 		else
 			return false;
 	}
+
+	
 
 	public boolean isOffScreen () {
 		if (y + height > dimension.height)
@@ -125,26 +126,13 @@ public class Minion extends Sprite{
 
 		if (!panel.isVisible ()) return;
 
-		boolean goLeft = false;
-		boolean goRight = false;
+		// boolean goLeft = false;
+		// boolean goRight = false;
 
-		if(y >= environment.getGround()){
-			// the minion has landed, look for jo now
-			//x += DX;
-			if(x - jo.getX() < 0){ // jo is to your right
-				goRight = true;
-				goLeft = false;
-				moveRight();
-			}
-			else{ // jo is to your left
-				goRight = false;
-				goLeft = true;
-				moveLeft();
-			}
-		}
-		else y = y + DY; // fall to the ground before seeking jo
+		findJo();
 
-		boolean hitPlayer = playerHitsBall();
+		boolean hitPlayer = playerHitsMinion();
+		// boolean hitMissile = 
 
 		if (hitPlayer || isOffScreen()) {
 			if (hitPlayer) {
@@ -160,13 +148,31 @@ public class Minion extends Sprite{
 			}
 
 			try {					// take a rest if jo hits minion or
-				Thread.sleep (500);		//   minion falls out of play.
+				Thread.sleep (100);		//   minion falls out of play.
 			}
 			catch (InterruptedException e) {};
 
 			//setPosition ();				// re-set position of minion
 		}
 		
+	}
+
+	private void findJo(){
+		if(y >= environment.getGround()){
+			// the minion has landed, look for jo now
+			//x += DX;
+			if(x - jo.getX() < 0){ // jo is to your right
+				// goRight = true;
+				// goLeft = false;
+				moveRight();
+			}
+			else{ // jo is to your left
+				// goRight = false;
+				// goLeft = true;
+				moveLeft();
+			}
+		}
+		else y = y + DY; // fall to the ground before seeking jo
 	}
 
 	public void moveLeft () {

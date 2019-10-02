@@ -12,10 +12,6 @@ public abstract class Player extends Sprite
 	protected int DX;		// amount of pixels to move in one keystroke
 	protected int DY;		// amount of pixels to jump in one keystroke
 
-	protected boolean facingLeft;
-	protected boolean facingRight;
-	protected boolean movingLeft, movingRight;
-
 	protected AudioHandler audioHandler;
 	protected ImageHandler imageHandler;
 	protected boolean canShoot;
@@ -27,9 +23,6 @@ public abstract class Player extends Sprite
 		super(p);
 		panel = p;
 		facingLeft = true;
-		facingRight = false;
-		movingLeft = movingRight = false;
-		
 		canShoot = false;
 		super.name = name;
 		missiles = new ConcurrentHashMap<Integer,Missile>();
@@ -51,6 +44,7 @@ public abstract class Player extends Sprite
 		movingLeft = false;
 		movingRight = false;
 	}
+
 	public void land() {
 		if (!panel.isVisible())
 			return;
@@ -61,6 +55,7 @@ public abstract class Player extends Sprite
 			y = this.environment.getGround();
 		}
 	}
+
 	public void jump() {
 		if (!panel.isVisible())
 			return;
@@ -85,7 +80,8 @@ public abstract class Player extends Sprite
 		}
 		facingRight = false;
 		facingLeft = true;
-    }
+	}
+	
     public void moveRight () {
 
 		if (!panel.isVisible ()) return;
@@ -120,11 +116,6 @@ public abstract class Player extends Sprite
 	public boolean getCanShoot() {return this.canShoot;}
 
 	public void setCanShoot(boolean v) {this.canShoot = v;}
-
-	public int getHealth(){return this.health;}
-	public int getScore(){return this.score;}
-	public void setHealth(int v){this.health = v;}
-	public void setScore(int v){this.score = v;}
 
 	public String printStats(){
 		String s = "HP: "

@@ -27,7 +27,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private Dio dio = null;
     private Minion minion = null;
     private Environment environment;
-    private String stats;
 
     private Thread gameThread;
     boolean isRunning;
@@ -169,7 +168,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
             0, 0, 
             environment.width, environment.height, null
         );      // draw the background image
-        minion.draw(g2);                    // draw the minion
+        minion.draw(g2);                // draw the minion
         jo.draw(g2);
         dio.draw(g2);
         drawMissiles(g2);
@@ -203,5 +202,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     public Jo getJo(){return this.jo;}
     public Dio getDio(){return this.dio;}
     public Minion getMinion(){return this.minion;}
+    // public Missile getMissile(){return this}
 
 }

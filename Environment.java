@@ -42,7 +42,7 @@ public class Environment extends Sprite
                 canDio = true;
             }
         };
-        timer.schedule(timerTask, 5);
+        //timer.schedule(timerTask, 5);
         //timer.scheduleAtFixedRate(timerTask, 0, 5*1000); // run every second? // 2 mins = 120000
 
         imageHandler = new ImageHandler(folderName);
@@ -89,15 +89,15 @@ public class Environment extends Sprite
 
 
     //main for testing
-    public static void main(String[] args) {
-        GamePanel p = new GamePanel();
-        Environment e = new Environment(p);
-        System.out.println(e.toString());
-        e.audioHandler.playClip("bgm.wav");
-        for (int i = 0; i < 200; i++) {
-            //System.out.println(e.getTimerCount());
-        }
-        System.out.println("2mins: " + e.check2Mins());
-        System.out.println("end e test");
-    }
+    // public static void main(String[] args) {
+    //     GamePanel p = new GamePanel();
+    //     Environment e = new Environment(p);
+    //     System.out.println(e.toString());
+    //     e.audioHandler.playClip("bgm.wav");
+    //     for (int i = 0; i < 200; i++) {
+    //         //System.out.println(e.getTimerCount());
+    //     }
+    //     System.out.println("2mins: " + e.check2Mins());
+    //     System.out.println("end e test");
+    // }
 }

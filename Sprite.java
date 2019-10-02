@@ -27,14 +27,20 @@ public class Sprite
 	protected Dimension dimension;
     protected Color backgroundColor;
 
-    protected static int score;
-	protected static int worth;
-	protected static int health;
+    protected boolean facingLeft;
+	protected boolean facingRight;
+	protected boolean movingLeft, movingRight;
+
+    protected int score;
+	protected int worth;
+	protected int health;
     
     protected Environment environment;
 
     public Sprite(GamePanel p){
         visible = true;
+        facingRight = false;
+		movingLeft = movingRight = false;
         panel = p;
         environment = p.getEnvironment();
 		Graphics g = panel.getGraphics ();
@@ -48,40 +54,30 @@ public class Sprite
     public void setSize(int w, int h){
         this.width = w;
         this.height = h;
-    }
+}
 
-    public int getX(){
-        return this.x;
-    }
+    public int getX(){return this.x;}
 
-    public int getY(){
-        return this.y;
-    }
+    public int getY(){return this.y;}
 
-    public int getWidth() {
-        return this.width;
-    }
+    public int getWidth() {return this.width;}
 
-    public int getHeight() {
-        return this.height;
-    }
+    public int getHeight() {return this.height;}
 
-    public boolean isVisible(){
-        return this.visible;
-    }
+    public boolean isVisible(){return this.visible;}
 
-    public void setVisible(boolean v){
-        this.visible = v;
-    }
+    public void setVisible(boolean v){this.visible = v;}
 
-    public String getName(){
-        return this.name;
-    }
+    public String getName(){return this.name;}
     
-    public void setName(String s){
-        this.name = s;
-    }
+    public void setName(String s){this.name = s;}
 
+    public int getHealth(){return this.health;}
+	public int getScore(){return this.score;}
+	public void setHealth(int v){this.health = v;}
+	public void setScore(int v){this.score = v;}
+	public void addScore(int v){this.score += v;}
+	public int getWorth(){return this.worth;}
 
     @Override
 	public String toString(){
@@ -89,7 +85,10 @@ public class Sprite
 		s = 
 			this.name + 
 			" x:" + this.x +
-			" y:" + this.y;
+            " y:" + this.y +
+            " health :" + this.health +
+            " worth: " + this.worth +
+            " score: " + this.score;
 		return s;
     }
     

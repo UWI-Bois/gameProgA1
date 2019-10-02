@@ -26,13 +26,15 @@ public class Jo extends Player
     
     public Jo(GamePanel p){
         super(p, "jo");
-        DX = 6;
-        DY = 20;
+        DX = 10;
+        DY = 100;
         super.width = 40;
         super.height = 60;
-        super.x = 1200;
+        super.x = 10;
         super.y = environment.getGround();
         health = 10;
+        score = 0;
+        facingRight = true;
         //initAudio();
         //System.out.println("Jo created! " + this.toString());
     }
