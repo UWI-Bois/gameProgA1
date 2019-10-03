@@ -28,7 +28,8 @@ public class Minion extends Sprite{
 	private Dimension dimension;
 	private Color backgroundColor;
 
-	private AudioHandler audioHandler;
+	public AudioHandler audioHandler;
+	public ImageHandler imageHandler;
 
 	private Jo jo;
 	private Environment environment;
@@ -37,11 +38,13 @@ public class Minion extends Sprite{
 	public String hitBat = "hitBat.au";
 	public String oof = "oof.wav";
 
+	public String explode = "explode.gif";
+
 	private Color color;
 
 	public Minion (GamePanel p) {
 		super(p);
-		super.name = "Minion";
+		super.name = "minion";
 		setSize();
 		DX = 5;
 		DY = 7;
@@ -64,8 +67,10 @@ public class Minion extends Sprite{
 
 		setPosition();					// set initial position of minion
 
-		audioHandler = new AudioHandler("minion");
+		audioHandler = new AudioHandler(name);
+		imageHandler = new ImageHandler(name);
 		initAudio();
+		initImages();
 
 		System.out.println("minion created!" + this.toString());
 	}
@@ -77,6 +82,11 @@ public class Minion extends Sprite{
 		this.audioHandler.loadClip(this.clack);
 		this.audioHandler.loadClip(this.hitBat);
         System.out.println("initAudio for Minion:" + audioHandler.toString());
+	}
+	
+	private void initImages(){
+        this.imageHandler.loadImage(explode);
+        System.out.println("initImages for minion:" + imageHandler.toString());
     }
 
 	private void setSize () {

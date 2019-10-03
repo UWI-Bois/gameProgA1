@@ -26,6 +26,11 @@ public class Sprite
     protected boolean visible;
 	protected boolean isDead;
 	protected boolean isFlying;
+	protected boolean isRunning;
+	protected boolean isMidAir;
+	protected boolean isJumping;
+	protected boolean isLanding;
+	protected boolean isIdle;
 
     protected Graphics2D g2;
 	protected GamePanel panel;
@@ -34,7 +39,7 @@ public class Sprite
 
     protected boolean facingLeft;
 	protected boolean facingRight;
-	protected boolean movingLeft, movingRight, jumping;
+	protected boolean movingLeft, movingRight;
 
     protected int score;
 	protected int worth;
@@ -44,8 +49,8 @@ public class Sprite
 
     public Sprite(GamePanel p){
         visible = true;
-        facingRight = facingLeft = false;
-		movingLeft = movingRight = jumping = false;
+        // facingRight = facingLeft = false;
+		movingLeft = movingRight = false;
         panel = p;
         environment = p.getEnvironment();
 		Graphics g = panel.getGraphics ();
@@ -130,16 +135,19 @@ public class Sprite
 		facingRight = false;
 		movingLeft = false;
 		movingRight = false;
+		isIdle = true;
 	}
 
 	public void land() {
 		if (!panel.isVisible())
 			return;
 
+		
 		y = y + DY;
-
+		isLanding = true;
 		if (y > 0) {
 			y = this.environment.getGround();
+			isLanding = false;
 		}
 	}
 
@@ -147,12 +155,14 @@ public class Sprite
 		if (!panel.isVisible())
 			return;
 
-		isFlying = true;
+		isJumping = true;
 		y = y - DY;
 
 		if (y < environment.getFlyBoundary()) {
 			//y = this.environment.getGround();
 			y = environment.getFlyBoundary();
+			isFlying = true;
+			isJumping = false;
 		}
 	}
 	public void moveLeft () {
@@ -169,6 +179,9 @@ public class Sprite
 		}
 		facingRight = false;
 		facingLeft = true;
+		isIdle = true;
+		isJumping = false;
+		isRunning = false;
 	}
 	
     public void moveRight () {
@@ -187,6 +200,9 @@ public class Sprite
 
 		facingRight = true;
 		facingLeft = false;
+		isIdle = false;
+		isJumping = false;
+		isRunning = true;
     }
 
     

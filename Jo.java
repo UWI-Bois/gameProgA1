@@ -24,6 +24,11 @@ this class will represent the player/MC(main character).
 public class Jo extends Player
 {
     public String ora = "ora.wav";
+    public String idle = "idle.gif";
+    public String run = "run.gif";
+    public String jump = "jump.gif";
+    public String midAir = "midAir.gif";
+    public String landing = "landing.gif";
     
     public Jo(GamePanel p){
         super(p, "jo");
@@ -37,7 +42,9 @@ public class Jo extends Player
         score = 0;
         facingRight = true;
         isFlying = false;
+        isIdle = true;
         initAudio();
+        initImages();
         //System.out.println("Jo created! " + this.toString());
     }
     
@@ -45,10 +52,70 @@ public class Jo extends Player
         this.audioHandler.loadClip(ora);
         System.out.println("initAudio for " + name + audioHandler.toString());
     }
+    private void initImages(){
+        this.imageHandler.loadImage(idle);
+        this.imageHandler.loadImage(run);
+        this.imageHandler.loadImage(jump);
+        this.imageHandler.loadImage(midAir);
+        this.imageHandler.loadImage(landing);
+        System.out.println("initAudio for " + name + audioHandler.toString());
+    }
 
     public void draw (Graphics2D g2) {
         g2.setColor (Color.BLUE);
         g2.fill (new Rectangle2D.Double (x, y, width, height));
+        // Image image;
+        
+        // if(isIdle){
+        //     image = this.imageHandler.getImage(idle);
+        //     g2.drawImage(
+        //         image,
+        //         x, y,
+        //         width, 
+        //         height,
+        //         null
+        //     );
+        // }
+        // if(isJumping){
+        //     image = this.imageHandler.getImage(jump);
+        //     g2.drawImage(
+        //         image,
+        //         x, y,
+        //         image.getWidth(null), 
+        //         image.getHeight(null),
+        //         null
+        //     );
+        // }
+        // if(isIdle){
+        //     image = this.imageHandler.getImage(idle);
+        //     g2.drawImage(
+        //         image,
+        //         x, y,
+        //         image.getWidth(null), 
+        //         image.getHeight(null),
+        //         null
+        //     );
+        // }
+        // if(isIdle){
+        //     image = this.imageHandler.getImage(idle);
+        //     g2.drawImage(
+        //         image,
+        //         x, y,
+        //         image.getWidth(null), 
+        //         image.getHeight(null),
+        //         null
+        //     );
+        // }
+        // if(isIdle){
+        //     image = this.imageHandler.getImage(idle);
+        //     g2.drawImage(
+        //         image,
+        //         x, y,
+        //         image.getWidth(null), 
+        //         image.getHeight(null),
+        //         null
+        //     );
+        // }
     }
 
     public void fire() {

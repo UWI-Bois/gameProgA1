@@ -31,6 +31,9 @@ public class ImageHandler
     private String folderName;
     private LinkedHashMap<String, Image> images;
 
+    public int width;
+    public int height;
+
     public ImageHandler(String folderName){
         this.folderName = folderName; 
         this.path = this.path + folderName + "/";
@@ -55,6 +58,14 @@ public class ImageHandler
 			System.out.println(e.getMessage());
 		}
 		return;
+    }
+
+    public void getImageDimensions(String imageName){
+        // width
+        // height
+        Image image = this.getImage(imageName);
+        this.width = image.getWidth(null);
+        this.height = image.getHeight(null);
     }
     
     public Image getImage(String imageName){return this.images.get(imageName);}

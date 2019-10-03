@@ -86,7 +86,7 @@ public class Environment extends Sprite
     }
 
     public void spawnMinions(){
-        if(!spawnTimer && timerCount % 5 == 0){
+        if(!spawnTimer && timerCount % 3 == 0){
             // spawn minions? perhaps some kinda jokey thing?
             int r = getRandomInt(1, 6); // roll d dice
             if(r == 1 || r == 2) spawn1(); 
