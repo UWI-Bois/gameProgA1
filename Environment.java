@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,11 +30,15 @@ public class Environment extends Sprite
     protected TimerTask timerTask;
     protected boolean canDio;
     protected boolean canGiorno;
-    protected int dioTimer = 5; // time to wait before dio moves
+    protected int dioTimer = 60; // time to wait before dio moves
+    protected boolean spawnTimer; // time to wait before dio moves
     protected ConcurrentHashMap<Integer, Minion> minions;
+
+    private Dio dio;
 
     public Environment(GamePanel p){
         super(p);
+        dio = p.getDio();
         name = "environment";
         folderName = name; // accessible through imagehandler class
         width = 1280;
@@ -41,6 +46,7 @@ public class Environment extends Sprite
         ground = 500;
         flyBoundary = 300;
         canDio = false;
+        spawnTimer = false;
         timer = new Timer();
         timerTask = new TimerTask(){
         
@@ -48,9 +54,9 @@ public class Environment extends Sprite
             public void run() {
                 // TODO Auto-generated method stub
                 timerCount++;
+                if(timerCount % 5 != 0) spawnTimer = false;
                 System.out.println("timercount: " + timerCount);
                 checkDio();
-                //spawnMinions();
             }
         };
 
@@ -80,37 +86,65 @@ public class Environment extends Sprite
     }
 
     public void spawnMinions(){
-        if(timerCount % 5 == 0){
+        if(!spawnTimer && timerCount % 5 == 0){
             // spawn minions? perhaps some kinda jokey thing?
             int r = getRandomInt(1, 6); // roll d dice
-            //if(r == 1 || r == 2) spawn1(); 
-            spawn1();
-            System.out.println("spawn1");
-            // spawn2();
-            // spawn3();
+            if(r == 1 || r == 2) spawn1(); 
+            else if(r == 3 || r == 4) spawn2(); 
+            else if(r == 5 || r == 6) spawn3();
+            spawnTimer = true;
         }
         else return;
     }
 
-    public void spawn1(){ // spawn a fastboi
-        Minion m1, m2;
-        m1 = new Minion(panel);
-        m2 = new Minion(panel);
-        m1.DX = getRandomInt(5, 10);
-        m2.DX = getRandomInt(5, 10);
-        minions.put(m1.getId(), m1);
-        minions.put(m2.getId(), m2);
+    public void spawn1(){ // spawn fastbois hardbois
+        Color color = Color.CYAN;
+        int max = 2;
+
+        for (int i = 0; i < max; i++) {
+            Minion var = new Minion(panel);
+            var.DY = getRandomInt(20, 30);
+            var.DX = getRandomInt(20, 30);
+            var.health = 1;
+            var.damage = 2;
+            var.setColor(color);
+            minions.put(var.getId(), var);
+        }
         minions.toString();
     }
     
-    public void spawn2(){ // spawn 4 slowbois
-        Minion m1, m2, m3, m4;
-        m1 = m2 = new Minion(panel);
-        m1.DX = getRandomInt(10, 16);
-        m2.DX = getRandomInt(10, 16);
-        minions.put(m1.getId(), m1);
-        minions.put(m2.getId(), m2);
+    public void spawn2(){ // spawn thiccbois
+        Color color = Color.PINK;
+        int max = 3;
+
+        for (int i = 0; i < max; i++) {
+            Minion var = new Minion(panel);
+            var.DY = getRandomInt(6, 10);
+            var.DX = getRandomInt(10, 15);
+            var.health = 4;
+            var.damage = 1;
+            var.setColor(color);
+            minions.put(var.getId(), var);
+        }
+        minions.toString();
     }
+    
+    public void spawn3(){ // spawn bois
+        Color color = Color.MAGENTA;
+        int max = 2;
+
+        for (int i = 0; i < max; i++) {
+            Minion var = new Minion(panel);
+            var.DY = getRandomInt(6, 10);
+            var.DX = getRandomInt(10, 15);
+            var.health = getRandomInt(2, 6);
+            var.damage = getRandomInt(1, 2);
+            var.setColor(color);
+            minions.put(var.getId(), var);
+        }
+        minions.toString();
+    }
+    
 
     private void initImages(){
         this.imageHandler.loadImage(bgImage);
@@ -155,7 +189,11 @@ public class Environment extends Sprite
             Minion minion = m.getValue();
             if (minion.isVisible() || !minion.isDead) {
                 minion.move();
-            } else {
+            } 
+            else if(minion.isDead) {
+                minions.remove(minion.getId());
+            }
+            else {
                 minions.remove(minion.getId());
             }
 		}

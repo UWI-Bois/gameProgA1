@@ -82,9 +82,11 @@ public class Missile extends Sprite
     public void move(){
         x += MISSILE_SPEED;
         //System.out.println(x);
-        if(x > boardWidth){
-            visible = true; // might have to change to true
+        if(x > boardWidth || x < 0){
+            visible = false; // might have to change to true
+            isDead = true;
         }
+        
 
         Set<Map.Entry<Integer, Minion>> set = minions.entrySet();
 		for(Map.Entry<Integer, Minion> m : set)
@@ -106,7 +108,7 @@ public class Missile extends Sprite
         }
 
         boolean hitDio = missileHitsDio();
-        if(hitDio){
+        if(hitDio && !dio.isDead){
             this.yeetMissile();
             dio.getAudioHandler().getClip(dio.wry).play();
             int hp = dio.getHealth();
@@ -140,9 +142,10 @@ public class Missile extends Sprite
     }
     
     public void yeetMissile(){
-        x = -200;
-        y = -200;
+        // x = -200;
+        // y = -200;
         isDead = true;
+        visible = false;
     }
 
     public Rectangle2D.Double getBoundingRectangle() {return new Rectangle2D.Double (x, y, width, height);}

@@ -19,6 +19,7 @@ import java.awt.Image;
 
 public class Minion extends Sprite{
 	private int id;
+	
 	protected int startNextSpawn;
     private static int idCounter = 0;
 
@@ -36,6 +37,8 @@ public class Minion extends Sprite{
 	public String hitBat = "hitBat.au";
 	public String oof = "oof.wav";
 
+	private Color color;
+
 	public Minion (GamePanel p) {
 		super(p);
 		super.name = "Minion";
@@ -43,6 +46,7 @@ public class Minion extends Sprite{
 		DX = 5;
 		DY = 7;
 		y = 80;
+		damage = 1;
 		id = idCounter;
 		idCounter++;
 		startNextSpawn = 10;
@@ -82,6 +86,10 @@ public class Minion extends Sprite{
 		width = w1;
 		height = h1;
 	}
+
+	public void setColor(Color c){ this.color = c;}
+	public Color getColor(){ return this.color;}
+
 	private void setPosition () {
 		// spawn locations based on bgimage: 95,95 - 60,130 // 190,95 - 215,130
 		int r = getRandomInt(1, 8);	// roll a dice.
@@ -111,7 +119,7 @@ public class Minion extends Sprite{
 	}
 
 	public void draw (Graphics2D g2) {
-		g2.setColor (Color.MAGENTA);
+		g2.setColor (color);
 		//g2.drawImage(ballImage, x, y, width, height, null);
 		g2.fill (new Ellipse2D.Double (x, y, width, height));
 	}
@@ -134,10 +142,8 @@ public class Minion extends Sprite{
 	}
 
 	public boolean isOffScreen () {
-		if (y + height > dimension.height)
-			return true;
-		else
-			return false;
+		if (y + height > dimension.height) return true;
+		else return false;
 	}
 
 
@@ -155,11 +161,12 @@ public class Minion extends Sprite{
 
 		if (hitPlayer || isOffScreen()) {
 			if (hitPlayer) {
-				jo.setHealth(jo.getHealth()-1);
+				jo.setHealth(jo.getHealth()-this.damage);
 				// String s = jo.printStats();
 				System.out.println(jo.printStats());
 				//playClip (1);			// play clip if jo hits minion
 				audioHandler.getClip(oof).play();
+				this.yeet();
 			}
 			else {					// play clip if minion falls out at bottom
 				//playClip (2);

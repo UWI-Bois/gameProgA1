@@ -21,6 +21,7 @@ public class Sprite
     protected int width; // size of entity
 	protected int height;
     protected String name;
+	protected int damage;
 
     protected boolean visible;
 	protected boolean isDead;
@@ -110,11 +111,12 @@ public class Sprite
     }
     
     public void yeet(){
-		x = -100;
-		y = -100;
-		DY = 0;
-        DX = 0;
-        isDead = true;
+		// x = -100;
+		// y = -100;
+		// DY = 0;
+        // DX = 0;
+		isDead = true;
+		visible = false;
     }
     
     public void erase(Graphics2D g2) {

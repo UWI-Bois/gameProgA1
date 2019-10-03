@@ -17,7 +17,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 {                   
     private Jo jo = null;
     private Dio dio = null;
-    private Minion minion = null;
+    // private Minion minion = null;
     private Environment environment;
     private int tSpeed; // thread sleep int
 
@@ -112,29 +112,22 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     }
 
     private void updateMissiles() {
-
         Set<Map.Entry<Integer, Missile>> set = jo.missiles.entrySet();
 		for(Map.Entry<Integer, Missile> m : set)
 		{
             Missile missile = m.getValue();
             if (missile.isVisible()) {
                 missile.move();
-            } else {
+            }
+            else if(missile.isDead) {
                 jo.missiles.remove(missile.getId());
+                System.out.println("removed deaed missile");
+            } 
+            else {
+                jo.missiles.remove(missile.getId());
+                System.out.println("removed missile");
             }
 		}
-        //List<Missile> missiles = jo.getMissiles();
-
-        for (int i = 0; i < jo.missiles.size(); i++) {
-
-            Missile missile = jo.missiles.get(i);
-
-            if (missile.isVisible()) {
-                missile.move();
-            } else {
-                jo.missiles.remove(i);
-            }
-        }
     }
     
     
@@ -155,9 +148,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     
 
     public void gameUpdate () {
+        // minion.move();
         environment.spawnMinions();
         environment.updateMinions();
-        minion.move();
+        
         if(environment.getCanDio()) dio.move();
         //dio.move();
         updateJo();
@@ -172,11 +166,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
             0, 0, 
             environment.width, environment.height, null
         );      // draw the background image
-        //minion.draw(g2);                // draw the minion
+        // minion.draw(g2);                // draw the minion
         environment.drawMinions(g2);
         jo.draw(g2);
-        dio.draw(g2);
+        if(!dio.isDead) dio.draw(g2);
         drawMissiles(g2);
+        drawGUI(g2);
         //stats = jo.printStats();
     }   
 
@@ -187,7 +182,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
             environment.startTimer(); 
             jo = new Jo (this);
             dio = new Dio (this);
-            minion = new Minion (this);
+            // minion = new Minion (this);
             //minions = new ConcurrentHashMap<Integer, Minion>();
             environment.getAudioHandler().getClip("bgm.wav").loop();
             gameThread = new Thread(this);
@@ -198,6 +193,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     public void endGame() {                 // end the game thread
 
         if (isRunning) {
+            // h o df ff f
             isRunning = false;
             environment.getAudioHandler().getClip("giorno.wav").stop();
             //playSound.stop();
@@ -208,6 +204,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     public Jo getJo(){return this.jo;}
     public Dio getDio(){return this.dio;}
     //public Minion getMinion(){return this.minion;}
+
+    public void drawGUI(Graphics2D g2){
+        Font f = new Font ("Impact", Font.PLAIN, (40));
+        g2.setFont(f);
+        g2.setColor(Color.BLACK);
+        g2.drawString("Time: " + Integer.toString(environment.getTimerCount()),10,70);
+        g2.drawString("HP: " + Integer.toString(jo.getHealth()),10,130);
+        g2.drawString("Score: " + Integer.toString(jo.getScore()),10,190);
+        g2.drawString("DIO HP: " + Integer.toString(dio.getHealth()),500,70);
+
+    }
     
 
 }
