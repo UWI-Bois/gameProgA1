@@ -203,8 +203,9 @@ public class Sprite
 		isIdle = false;
 		isJumping = false;
 		isRunning = true;
-    }
+	}
+	
+	public Graphics2D getGraphics2d(){return this.g2;}
 
-    
 
 }

@@ -39,6 +39,7 @@ public class Minion extends Sprite{
 	public String oof = "oof.wav";
 
 	public String explode = "explode.gif";
+	public String spunk = "spunk.png";
 
 	private Color color;
 
@@ -86,6 +87,7 @@ public class Minion extends Sprite{
 	
 	private void initImages(){
         this.imageHandler.loadImage(explode);
+        this.imageHandler.loadImage(spunk);
         System.out.println("initImages for minion:" + imageHandler.toString());
     }
 
@@ -173,7 +175,7 @@ public class Minion extends Sprite{
 			if (hitPlayer) {
 				jo.setHealth(jo.getHealth()-this.damage);
 				// String s = jo.printStats();
-				System.out.println(jo.printStats());
+				//System.out.println(jo.printStats());
 				//playClip (1);			// play clip if jo hits minion
 				audioHandler.getClip(oof).play();
 				this.yeet();

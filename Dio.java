@@ -129,5 +129,12 @@ public class Dio extends Player {
 		else y = y + DY; // fall to the ground before seeking jo
 	}
 
-	
+	public void updateDio(){
+		if(this.health <= 0){
+			//this.yeet();
+			panel.getJo().win = true;
+            panel.endGame();
+        }	
+	}
+
 }

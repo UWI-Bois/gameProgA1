@@ -17,7 +17,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 {                   
     private Jo jo = null;
     private Dio dio = null;
-    // private Minion minion = null;
     private Environment environment;
     private int tSpeed; // thread sleep int
 
@@ -44,6 +43,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
             while (isRunning) {
                 gameUpdate();
                 gameRender();
+                jo.updateJo();
+                dio.updateDio();
                 if(environment.getTimerCount() == environment.dioTimer){
                     environment.getAudioHandler().getClip(environment.bgm).stop();
                     dio.getAudioHandler().getClip(dio.zaWarudo).play();
@@ -130,9 +131,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		}
     }
     
+    private void clearMissiles() {
+        Set<Map.Entry<Integer, Missile>> set = jo.missiles.entrySet();
+		for(Map.Entry<Integer, Missile> m : set)
+		{
+            Missile missile = m.getValue();
+            jo.missiles.remove(missile.getId());
+            System.out.println("removed missile");
+		}
+    }
     
     
-    private void updateJo() {
+    
+    private void updateJoMovement() {
         if(jo.movingLeft) jo.moveLeft();
         if(jo.movingRight) jo.moveRight();
     }
@@ -153,8 +164,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
         environment.updateMinions();
         
         if(environment.getCanDio()) dio.move();
-        //dio.move();
-        updateJo();
+        updateJoMovement();
         updateMissiles();
     }
 
@@ -191,12 +201,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     }
 
     public void endGame() {                 // end the game thread
-
+        Graphics2D g2 = (Graphics2D) getGraphics();
         if (isRunning) {
             // h o df ff f
             isRunning = false;
-            environment.getAudioHandler().getClip("giorno.wav").stop();
+            gameOver(g2);
+            //endGame();
+            //environment.getAudioHandler().getClip("giorno.wav").stop();
             //playSound.stop();
+        }
+        else{
+            gameOver(g2);
+            //endGame();
         }
     }
 
@@ -213,7 +229,40 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
         g2.drawString("HP: " + Integer.toString(jo.getHealth()),10,130);
         g2.drawString("Score: " + Integer.toString(jo.getScore()),10,190);
         g2.drawString("DIO HP: " + Integer.toString(dio.getHealth()),500,70);
+    }
+    
+    public void drawGameOverGUI(Graphics2D g2){
+        Font f = new Font ("Impact", Font.PLAIN, (40));
+        g2.setFont(f);
+        g2.setColor(Color.BLACK);
+        g2.drawString("Time: " + Integer.toString(environment.getTimerCount()),10,70);
+        g2.drawString("HP: " + Integer.toString(jo.getHealth()),10,130);
+        g2.drawString("Score: " + Integer.toString(jo.getScore()),10,190);
+        g2.drawString("DIO HP: " + Integer.toString(dio.getHealth()),500,70);
+    }
 
+    public void gameOver(Graphics2D g2){
+        // gameover if jo hp = 0, dio isdead
+        // Graphics2D g2 = environment.getGraphics2d();
+        environment.timerTask.cancel();
+        //isRunning = false;
+        jo.yeet();
+        dio.yeet();
+        environment.clearMinions();
+        clearMissiles();
+        //jo = null;
+        //dio = null;
+        environment.getAudioHandler().getClip(environment.giorno).stop();
+        environment.getAudioHandler().getClip(environment.jojo).play();
+        // change bg
+        g2.drawImage(
+            environment.getImageHandler().getImage(environment.gameOver), 
+            0, 0, 
+            environment.width, environment.height, null
+        );
+        // change song
+        
+        drawGameOverGUI(g2);
     }
     
 

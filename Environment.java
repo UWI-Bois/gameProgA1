@@ -14,31 +14,30 @@ public class Environment extends Sprite
 {
     private ImageHandler imageHandler;
     private AudioHandler audioHandler;
-    private String folderName;
-    private int ground;
-    private int flyBoundary;
+    public String folderName;
+    public int ground;
+    public int flyBoundary;
 
     // image file names
-    private String bgImage = "background.png";
+    public String bgImage = "background.png";
+    public String gameOver = "gameOver.jpg";
+    public String gameStart = "gameStart.jpg";
     // sound file names
     public String bgm = "bgm.wav";
     public String giorno = "giorno.wav";
     public String jojo = "jojo.wav";
 
-    protected Timer timer;
-    protected static int timerCount = 0;
-    protected TimerTask timerTask;
-    protected boolean canDio;
-    protected boolean canGiorno;
-    protected int dioTimer = 60; // time to wait before dio moves
-    protected boolean spawnTimer; // time to wait before dio moves
-    protected ConcurrentHashMap<Integer, Minion> minions;
-
-    private Dio dio;
+    public Timer timer;
+    public static int timerCount = 0;
+    public TimerTask timerTask;
+    public boolean canDio;
+    public boolean canGiorno;
+    public int dioTimer = 5; // time to wait before dio moves
+    public boolean spawnTimer; // time to wait before dio moves
+    public ConcurrentHashMap<Integer, Minion> minions;
 
     public Environment(GamePanel p){
         super(p);
-        dio = p.getDio();
         name = "environment";
         folderName = name; // accessible through imagehandler class
         width = 1280;
@@ -99,7 +98,7 @@ public class Environment extends Sprite
 
     public void spawn1(){ // spawn fastbois hardbois
         Color color = Color.CYAN;
-        int max = 2;
+        int max = 4;
 
         for (int i = 0; i < max; i++) {
             Minion var = new Minion(panel);
@@ -115,7 +114,7 @@ public class Environment extends Sprite
     
     public void spawn2(){ // spawn thiccbois
         Color color = Color.PINK;
-        int max = 3;
+        int max = 4;
 
         for (int i = 0; i < max; i++) {
             Minion var = new Minion(panel);
@@ -131,7 +130,7 @@ public class Environment extends Sprite
     
     public void spawn3(){ // spawn bois
         Color color = Color.MAGENTA;
-        int max = 2;
+        int max = 3;
 
         for (int i = 0; i < max; i++) {
             Minion var = new Minion(panel);
@@ -148,6 +147,8 @@ public class Environment extends Sprite
 
     private void initImages(){
         this.imageHandler.loadImage(bgImage);
+        this.imageHandler.loadImage(gameOver);
+        this.imageHandler.loadImage(gameStart);
         System.out.println("initImages for Environment:" + imageHandler.toString());
     }
 
@@ -196,12 +197,22 @@ public class Environment extends Sprite
             else {
                 minions.remove(minion.getId());
             }
-		}
+        }
+    }
+    
+    public void clearMinions() {
+        Set<Map.Entry<Integer, Minion>> set = minions.entrySet();
+		for(Map.Entry<Integer, Minion> m : set)
+		{
+            Minion minion = m.getValue();
+            minions.remove(minion.getId());
+        }
     }
 
     public ConcurrentHashMap<Integer, Minion> getMinions(){return this.minions;}
 
     // main for testing
+
     // public static void main(String[] args) {
     //     GamePanel p = new GamePanel();
     //     Environment e = new Environment(p);

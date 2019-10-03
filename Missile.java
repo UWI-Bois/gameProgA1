@@ -100,11 +100,12 @@ public class Missile extends Sprite
                 minion.setHealth(hp);
                 // minion dies
                 if(hp <= 0){
-                    Image image = minion.imageHandler.getImage(minion.explode);
+                    Image image = minion.imageHandler.getImage(minion.spunk);
+                    
                     g2.drawImage(
                         image,
                         minion.x, minion.y,
-                        image.getWidth(panel), image.getHeight(panel), null 
+                        minion.width, minion.height, null 
                     );
                     
                     minion.yeet();

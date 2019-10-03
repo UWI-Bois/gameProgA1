@@ -29,6 +29,8 @@ public class Jo extends Player
     public String jump = "jump.gif";
     public String midAir = "midAir.gif";
     public String landing = "landing.gif";
+
+    public boolean win = false;
     
     public Jo(GamePanel p){
         super(p, "jo");
@@ -130,4 +132,11 @@ public class Jo extends Player
 		System.out.println("ORA!");
 	}
     
+    public void updateJo(){
+        if(this.health <= 0){
+            //this.yeet();
+            win = false;
+            panel.endGame();
+        }
+    }
 }
