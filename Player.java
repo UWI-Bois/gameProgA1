@@ -32,14 +32,7 @@ public abstract class Player extends Sprite
 	public Rectangle2D.Double getBoundingRectangle() {return new Rectangle2D.Double (x, y, width, height);}
 
 	// missile stuff
-	public void fire() {
-		int xV = x + width;
-		if (facingRight) xV = xV * -1;
-		Missile m = new Missile(panel, xV, y + height / 4);
-		missiles.put(m.getId(), m);
-		// play sound
-		System.out.println("ORA!");
-	}
+	//public abstract void fire();
 
 	public ConcurrentHashMap<Integer,Missile> getMissiles() {return this.missiles;}
 

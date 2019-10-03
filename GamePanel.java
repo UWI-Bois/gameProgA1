@@ -18,7 +18,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private Jo jo = null;
     private Dio dio = null;
     private Minion minion = null;
-    private ConcurrentHashMap<Integer, Minion> minions;
     private Environment environment;
     private int tSpeed; // thread sleep int
 
@@ -138,6 +137,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
         }
     }
     
+    
+    
     private void updateJo() {
         if(jo.movingLeft) jo.moveLeft();
         if(jo.movingRight) jo.moveRight();
@@ -150,15 +151,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 			m.getValue().draw(g2);
 		}
     }
-    private void drawMinions(Graphics2D g2){
-        Set<Map.Entry<Integer, Minion>> set = minions.entrySet();
-		for(Map.Entry<Integer, Minion> m : set)
-		{
-			m.getValue().draw(g2);
-		}
-    }
+
+    
 
     public void gameUpdate () {
+        environment.spawnMinions();
+        environment.updateMinions();
         minion.move();
         if(environment.getCanDio()) dio.move();
         //dio.move();
@@ -174,11 +172,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
             0, 0, 
             environment.width, environment.height, null
         );      // draw the background image
-        minion.draw(g2);                // draw the minion
+        //minion.draw(g2);                // draw the minion
+        environment.drawMinions(g2);
         jo.draw(g2);
         dio.draw(g2);
         drawMissiles(g2);
-           
         //stats = jo.printStats();
     }   
 
@@ -190,7 +188,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
             jo = new Jo (this);
             dio = new Dio (this);
             minion = new Minion (this);
-            minions = new ConcurrentHashMap<Integer, Minion>();
+            //minions = new ConcurrentHashMap<Integer, Minion>();
             environment.getAudioHandler().getClip("bgm.wav").loop();
             gameThread = new Thread(this);
             gameThread.start();
@@ -209,7 +207,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     public Environment getEnvironment(){return this.environment;}
     public Jo getJo(){return this.jo;}
     public Dio getDio(){return this.dio;}
-    public Minion getMinion(){return this.minion;}
-    public ConcurrentHashMap getMinions(){return this.minions;}
+    //public Minion getMinion(){return this.minion;}
+    
 
 }

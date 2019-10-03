@@ -1,4 +1,6 @@
 import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,6 +15,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Missile extends Sprite
 {
@@ -25,7 +28,8 @@ public class Missile extends Sprite
     private int id;
     private static int idCounter = 0;
 
-    private Minion minion;
+    // private Minion minion;
+    private ConcurrentHashMap<Integer, Minion> minions;
     private Jo jo;
     private Dio dio;
     
@@ -37,6 +41,7 @@ public class Missile extends Sprite
         width = 20;
         height = 20;
         MISSILE_SPEED = 10;
+        // if(x < 0) MISSILE_SPEED = MISSILE_SPEED*-1;
         damage = 1;
         boardWidth = environment.width;
         this.color = Color.ORANGE;
@@ -44,9 +49,13 @@ public class Missile extends Sprite
         initMissile();
         this.id = idCounter;
         idCounter++;
-        minion = p.getMinion();
+        minions = environment.getMinions();
         jo = p.getJo();
         dio = p.getDio();
+
+        if(jo.facingLeft){
+            MISSILE_SPEED = MISSILE_SPEED*-1;
+        }
         //System.out.println("missile created!");
     }
 
@@ -76,20 +85,27 @@ public class Missile extends Sprite
         if(x > boardWidth){
             visible = true; // might have to change to true
         }
-        boolean hitMinion = missileHitsMinion();
-        boolean hitDio = missileHitsDio();
-        if(hitMinion){
-            this.yeetMissile();
-            int hp = minion.getHealth();
-            hp-=this.getDamage();
-            minion.setHealth(hp);
-            // minion dies
-            if(hp <= 0){
-                minion.yeet();
-                jo.addScore(minion.getWorth());
-                System.out.println("Minion Slain!\nJo Stats:\n" + jo.toString() + "\nMinion Stats: " + minion.toString());
+
+        Set<Map.Entry<Integer, Minion>> set = minions.entrySet();
+		for(Map.Entry<Integer, Minion> m : set)
+		{
+            Minion minion = m.getValue();
+            boolean hitMinion = missileHitsMinion(minion);
+            if(hitMinion){
+                this.yeetMissile();
+                int hp = minion.getHealth();
+                hp-=this.getDamage();
+                minion.setHealth(hp);
+                // minion dies
+                if(hp <= 0){
+                    minion.yeet();
+                    jo.addScore(minion.getWorth());
+                    System.out.println("Minion Slain!\nJo Stats:\n" + jo.toString() + "\nMinion Stats: " + minion.toString());
+                }
             }
         }
+
+        boolean hitDio = missileHitsDio();
         if(hitDio){
             this.yeetMissile();
             dio.getAudioHandler().getClip(dio.wry).play();
@@ -107,25 +123,20 @@ public class Missile extends Sprite
 
     public int getId(){return this.id;}
 
-    public boolean missileHitsMinion () {
-
-		Rectangle2D.Double rectMinion = minion.getBoundingRectangle();
-		Rectangle2D.Double rectMissile = this.getBoundingRectangle();
-		
-		if (rectMissile.intersects(rectMinion))
-			return true;
-		else
-			return false;
+    public boolean missileHitsMinion (Minion minion) {
+        boolean value = false;
+        Rectangle2D.Double rectMissile = this.getBoundingRectangle();
+        Rectangle2D.Double rectMinion = minion.getBoundingRectangle();
+        if (rectMissile.intersects(rectMinion)) value = true;
+        else value = false;
+        return value;
     }
-    public boolean missileHitsDio () {
 
+    public boolean missileHitsDio () {
 		Rectangle2D.Double rectMinion = dio.getBoundingRectangle();
 		Rectangle2D.Double rectMissile = this.getBoundingRectangle();
-		
-		if (rectMissile.intersects(rectMinion))
-			return true;
-		else
-			return false;
+		if (rectMissile.intersects(rectMinion)) return true;
+		else return false;
     }
     
     public void yeetMissile(){

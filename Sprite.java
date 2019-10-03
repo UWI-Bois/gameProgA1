@@ -23,7 +23,8 @@ public class Sprite
     protected String name;
 
     protected boolean visible;
-    protected boolean isDead;
+	protected boolean isDead;
+	protected boolean isFlying;
 
     protected Graphics2D g2;
 	protected GamePanel panel;
@@ -32,7 +33,7 @@ public class Sprite
 
     protected boolean facingLeft;
 	protected boolean facingRight;
-	protected boolean movingLeft, movingRight;
+	protected boolean movingLeft, movingRight, jumping;
 
     protected int score;
 	protected int worth;
@@ -43,7 +44,7 @@ public class Sprite
     public Sprite(GamePanel p){
         visible = true;
         facingRight = facingLeft = false;
-		movingLeft = movingRight = false;
+		movingLeft = movingRight = jumping = false;
         panel = p;
         environment = p.getEnvironment();
 		Graphics g = panel.getGraphics ();
@@ -96,9 +97,11 @@ public class Sprite
 		return s;
     }
     
-    public static int getRandomInt(int max, int min){
-        int val = 0;
-        val = (int) (Math.random() * ((max-min) + 1) + min);
+    public static int getRandomInt(int min, int max){
+		int val = -1;
+		Random r = new Random();
+		val = min + r.nextInt(max - min + 1);
+		//System.out.println("getRandomInt(" + max +"," + min +")" + " says: val = " + val);
         return val;
     }
 
@@ -142,10 +145,12 @@ public class Sprite
 		if (!panel.isVisible())
 			return;
 
+		isFlying = true;
 		y = y - DY;
 
-		if (y < 0) {
-			y = this.environment.getGround();
+		if (y < environment.getFlyBoundary()) {
+			//y = this.environment.getGround();
+			y = environment.getFlyBoundary();
 		}
 	}
 	public void moveLeft () {

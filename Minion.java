@@ -19,6 +19,7 @@ import java.awt.Image;
 
 public class Minion extends Sprite{
 	private int id;
+	protected int startNextSpawn;
     private static int idCounter = 0;
 
 	Graphics2D g2;
@@ -44,7 +45,8 @@ public class Minion extends Sprite{
 		y = 80;
 		id = idCounter;
 		idCounter++;
-		health = getRandomInt(0, 4); // return a random int between 0 and 4
+		startNextSpawn = 10;
+		health = getRandomInt(1, 6); // return a random int between 0 and 4
 		worth = health;
 		facingLeft = facingRight = false;
 
@@ -75,16 +77,24 @@ public class Minion extends Sprite{
 
 	private void setSize () {
 		// spawn locations based on bgimage: 95,95 - 60,130 // 190,95 - 215,130
-		int w1 = getRandomInt(30, 40);	
-		int h1 = getRandomInt(40, 50);	
+		int w1 = getRandomInt(30, 80);	
+		int h1 = getRandomInt(40, 90);	
 		width = w1;
 		height = h1;
 	}
 	private void setPosition () {
 		// spawn locations based on bgimage: 95,95 - 60,130 // 190,95 - 215,130
-		int r = getRandomInt(0, 7);	// roll a dice.
-		if(r % 2 == 0) spawnArea1();
-		else spawnArea2();						// set y to top of the panel
+		int r = getRandomInt(1, 8);	// roll a dice.
+		if(environment.getTimerCount() > startNextSpawn){
+			if(r == 1 || r == 2) spawnArea1();
+			else if (r == 3 || r == 4) spawnArea2();
+			else if (r == 5 || r == 6) spawnArea3();
+			else if (r == 7 || r == 8) spawnArea4();
+		}
+		else{
+			if(r % 2 == 0) spawnArea1();
+		else spawnArea2();	
+		}
 	}
 
 	private void spawnArea1(){
@@ -92,6 +102,12 @@ public class Minion extends Sprite{
 	}
 	private void spawnArea2(){
 		x = 1000;
+	}
+	private void spawnArea3(){
+		x = 235;
+	}
+	private void spawnArea4(){
+		x = 355;
 	}
 
 	public void draw (Graphics2D g2) {
@@ -206,5 +222,12 @@ public class Minion extends Sprite{
 
 		facingRight = true;
 		facingLeft = false;
-    }
+	}
+	
+	@Override
+	public String toString(){
+		String s = super.toString();
+		s += "id: " + this.id;
+		return s;
+	}
 }

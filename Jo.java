@@ -23,6 +23,7 @@ this class will represent the player/MC(main character).
 */
 public class Jo extends Player
 {
+    public String ora = "ora.wav";
     
     public Jo(GamePanel p){
         super(p, "jo");
@@ -35,12 +36,13 @@ public class Jo extends Player
         health = 10;
         score = 0;
         facingRight = true;
-        //initAudio();
+        isFlying = false;
+        initAudio();
         //System.out.println("Jo created! " + this.toString());
     }
     
     private void initAudio(){
-        //this.audioHandler.loadClip(oof);
+        this.audioHandler.loadClip(ora);
         System.out.println("initAudio for " + name + audioHandler.toString());
     }
 
@@ -48,5 +50,17 @@ public class Jo extends Player
         g2.setColor (Color.BLUE);
         g2.fill (new Rectangle2D.Double (x, y, width, height));
     }
+
+    public void fire() {
+		int xV = x + width;
+		// if (facingRight){
+		// 	xV = xV * -1;
+		// }
+		Missile m = new Missile(panel, xV, y + height / 4);
+		missiles.put(m.getId(), m);
+        // play sound
+        this.audioHandler.getClip(ora).play();
+		System.out.println("ORA!");
+	}
     
 }
