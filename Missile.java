@@ -40,9 +40,9 @@ public class Missile extends Sprite
         super.y = y;
         width = 20;
         height = 20;
-        MISSILE_SPEED = 10;
+        MISSILE_SPEED = 65;
         // if(x < 0) MISSILE_SPEED = MISSILE_SPEED*-1;
-        damage = 1;
+        //damage = 1;
         boardWidth = environment.width;
         this.color = Color.ORANGE;
         this.shape = new Rectangle2D.Double (x, y, width, height);
@@ -51,11 +51,12 @@ public class Missile extends Sprite
         idCounter++;
         minions = environment.getMinions();
         jo = p.getJo();
+        damage = jo.damage;
         dio = p.getDio();
 
-        if(jo.facingLeft){
-            MISSILE_SPEED = MISSILE_SPEED*-1;
-        }
+        // if(jo.facingLeft){
+        //     MISSILE_SPEED = MISSILE_SPEED*-1;
+        // }
         //System.out.println("missile created!");
     }
 
@@ -100,8 +101,11 @@ public class Missile extends Sprite
                 minion.setHealth(hp);
                 // minion dies
                 if(hp <= 0){
-                    Image image = minion.imageHandler.getImage(minion.spunk);
-                    
+
+                    //minion.getAudioHandler().getClip(minion.clack).play();
+
+                    Image image = minion.imageHandler.getImage(minion.explode);
+
                     g2.drawImage(
                         image,
                         minion.x, minion.y,

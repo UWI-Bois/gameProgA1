@@ -17,6 +17,7 @@ public class GameFrame extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		gamePanel = new GamePanel ();			// create the Game Panel
+		// gamePanel.loadMenu();
 		add (gamePanel, "Center");
 
 		gamePanel.setFocusable (true);
@@ -37,6 +38,8 @@ public class GameFrame extends JFrame implements ActionListener {
 		buttonPanel.add (closeB);
 
 		add (buttonPanel, "South");
+
+		//gamePanel.loadMenu();
 
 		//loadClips ();
 	}
@@ -79,5 +82,7 @@ public class GameFrame extends JFrame implements ActionListener {
 			System.exit (0);
 		}
 	}
+
+	public GamePanel getGamePanel(){return this.gamePanel;}
 
 }

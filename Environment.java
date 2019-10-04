@@ -21,7 +21,7 @@ public class Environment extends Sprite
     // image file names
     public String bgImage = "background.png";
     public String gameOver = "gameOver.jpg";
-    public String gameStart = "gameStart.jpg";
+    public String gameStart = "gameStart.png";
     // sound file names
     public String bgm = "bgm.wav";
     public String giorno = "giorno.wav";
@@ -32,7 +32,7 @@ public class Environment extends Sprite
     public TimerTask timerTask;
     public boolean canDio;
     public boolean canGiorno;
-    public int dioTimer = 5; // time to wait before dio moves
+    public int dioTimer = 60; // time to wait before dio moves
     public boolean spawnTimer; // time to wait before dio moves
     public ConcurrentHashMap<Integer, Minion> minions;
 
@@ -54,7 +54,7 @@ public class Environment extends Sprite
                 // TODO Auto-generated method stub
                 timerCount++;
                 if(timerCount % 5 != 0) spawnTimer = false;
-                System.out.println("timercount: " + timerCount);
+                // System.out.println("timercount: " + timerCount);
                 checkDio();
             }
         };
@@ -80,7 +80,7 @@ public class Environment extends Sprite
     public void checkDio(){
         if(this.timerCount >= dioTimer){
             canDio = true;
-            System.out.println("action is coming");
+            //System.out.println("action is coming");
         }
     }
 
@@ -88,9 +88,25 @@ public class Environment extends Sprite
         if(!spawnTimer && timerCount % 3 == 0){
             // spawn minions? perhaps some kinda jokey thing?
             int r = getRandomInt(1, 6); // roll d dice
-            if(r == 1 || r == 2) spawn1(); 
-            else if(r == 3 || r == 4) spawn2(); 
-            else if(r == 5 || r == 6) spawn3();
+            if(timerCount % 6 == 0){
+                if(r == 1 || r == 2){
+                    spawn1(); 
+                    spawn3(); 
+                } 
+                else if(r == 3 || r == 4) {
+                    spawn2();
+                    spawn3(); 
+                }
+                else if(r == 5 || r == 6) {
+                    spawn1();
+                    spawn2();
+                }
+            }
+            else {
+                if(r == 1 || r == 2) spawn1(); 
+                else if(r == 3 || r == 4) spawn2(); 
+                else if(r == 5 || r == 6) spawn3();
+            }
             spawnTimer = true;
         }
         else return;
@@ -98,7 +114,9 @@ public class Environment extends Sprite
 
     public void spawn1(){ // spawn fastbois hardbois
         Color color = Color.CYAN;
-        int max = 4;
+        int max;
+        if(timerCount > 30) max = 4;
+        else max = 2;
 
         for (int i = 0; i < max; i++) {
             Minion var = new Minion(panel);
@@ -114,7 +132,10 @@ public class Environment extends Sprite
     
     public void spawn2(){ // spawn thiccbois
         Color color = Color.PINK;
-        int max = 4;
+        int max;
+        if(timerCount > 30) max = 4;
+        else max = 2;
+        
 
         for (int i = 0; i < max; i++) {
             Minion var = new Minion(panel);
@@ -130,7 +151,9 @@ public class Environment extends Sprite
     
     public void spawn3(){ // spawn bois
         Color color = Color.MAGENTA;
-        int max = 3;
+        int max;
+        if(timerCount > 30) max = 4;
+        else max = 2;
 
         for (int i = 0; i < max; i++) {
             Minion var = new Minion(panel);

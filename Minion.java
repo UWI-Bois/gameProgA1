@@ -35,7 +35,6 @@ public class Minion extends Sprite{
 	private Environment environment;
 
 	public String clack = "clack.au";
-	public String hitBat = "hitBat.au";
 	public String oof = "oof.wav";
 
 	public String explode = "explode.gif";
@@ -81,7 +80,6 @@ public class Minion extends Sprite{
 	private void initAudio(){
 		this.audioHandler.loadClip(this.oof);
 		this.audioHandler.loadClip(this.clack);
-		this.audioHandler.loadClip(this.hitBat);
         System.out.println("initAudio for Minion:" + audioHandler.toString());
 	}
 	
@@ -101,6 +99,8 @@ public class Minion extends Sprite{
 
 	public void setColor(Color c){ this.color = c;}
 	public Color getColor(){ return this.color;}
+
+	public AudioHandler getAudioHandler(){return this.audioHandler;}
 
 	private void setPosition () {
 		// spawn locations based on bgimage: 95,95 - 60,130 // 190,95 - 215,130

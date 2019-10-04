@@ -141,8 +141,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		}
     }
     
-    
-    
     private void updateJoMovement() {
         if(jo.movingLeft) jo.moveLeft();
         if(jo.movingRight) jo.moveRight();
@@ -155,8 +153,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 			m.getValue().draw(g2);
 		}
     }
-
-    
 
     public void gameUpdate () {
         // minion.move();
@@ -227,18 +223,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
         g2.setColor(Color.BLACK);
         g2.drawString("Time: " + Integer.toString(environment.getTimerCount()),10,70);
         g2.drawString("HP: " + Integer.toString(jo.getHealth()),10,130);
-        g2.drawString("Score: " + Integer.toString(jo.getScore()),10,190);
+        g2.drawString("DMG: " + Integer.toString(jo.getDamage()),10,190);
+        g2.drawString("Score: " + Integer.toString(jo.getScore()),10,240);
         g2.drawString("DIO HP: " + Integer.toString(dio.getHealth()),500,70);
     }
     
     public void drawGameOverGUI(Graphics2D g2){
-        Font f = new Font ("Impact", Font.PLAIN, (40));
+        Font f = new Font ("Impact", Font.PLAIN, (60));
         g2.setFont(f);
-        g2.setColor(Color.BLACK);
+        g2.setColor(Color.BLUE);
         g2.drawString("Time: " + Integer.toString(environment.getTimerCount()),10,70);
         g2.drawString("HP: " + Integer.toString(jo.getHealth()),10,130);
         g2.drawString("Score: " + Integer.toString(jo.getScore()),10,190);
         g2.drawString("DIO HP: " + Integer.toString(dio.getHealth()),500,70);
+        if(jo.win) g2.drawString("you win :)",650,350);
+        else g2.drawString("you lose :)",650,350);
     }
 
     public void gameOver(Graphics2D g2){
@@ -255,14 +254,36 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
         environment.getAudioHandler().getClip(environment.giorno).stop();
         environment.getAudioHandler().getClip(environment.jojo).play();
         // change bg
+        if(jo.win) drawWin(g2);
+        else drawLose(g2);
+        
+        // change song
+        
+        drawGameOverGUI(g2);
+    }
+
+    public void loadMenu(){
+        Graphics2D g2 = (Graphics2D) getGraphics();
+        g2.drawImage(
+            environment.getImageHandler().getImage(environment.gameStart), 
+            0, 0, 
+            environment.width, environment.height, null
+        );
+    }
+
+    public void drawWin(Graphics2D g2){
+        g2.drawImage(
+            environment.getImageHandler().getImage(environment.gameStart), 
+            0, 0, 
+            environment.width, environment.height, null
+        );
+    }
+    public void drawLose(Graphics2D g2){
         g2.drawImage(
             environment.getImageHandler().getImage(environment.gameOver), 
             0, 0, 
             environment.width, environment.height, null
         );
-        // change song
-        
-        drawGameOverGUI(g2);
     }
     
 

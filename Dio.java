@@ -32,10 +32,11 @@ public class Dio extends Player {
 
 	public Dio(GamePanel p) {
 		super(p, "dio");
-		DY = 15;
-		DX = 5;
-		health = 20;
+		DY = 6;
+		DX = 20;
+		health = 50;
 		facingLeft = true;
+		damage = 3;
 		super.width = 40;
 		super.height = 60;
 		super.x = 1190;
@@ -90,15 +91,15 @@ public class Dio extends Player {
 
 		if (hitPlayer || isOffScreen()) {
 			if (hitPlayer) {
-				jo.setHealth(jo.getHealth()-1);
+				jo.setHealth(jo.getHealth()-damage);
 				// String s = jo.printStats();
-				System.out.println(jo.printStats());
+				//System.out.println(jo.printStats());
 				//playClip (1);			// play clip if jo hits minion
 				audioHandler.getClip(zaWarudo).play();
 			}
 			else {					// play clip if minion falls out at bottom
 				//playClip (2);
-				audioHandler.getClip(wry).play();
+				//audioHandler.getClip(wry).play();
 			}
 
 			try {					// take a rest if jo hits minion or
@@ -130,6 +131,10 @@ public class Dio extends Player {
 	}
 
 	public void updateDio(){
+		if(health < 20){
+			damage = 6;
+			DX = 80;
+		}
 		if(this.health <= 0){
 			//this.yeet();
 			panel.getJo().win = true;

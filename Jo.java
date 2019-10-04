@@ -31,6 +31,9 @@ public class Jo extends Player
     public String landing = "landing.gif";
 
     public boolean win = false;
+    public boolean up1 = false;
+    public boolean up2 = false;
+    public boolean up3 = false;
     
     public Jo(GamePanel p){
         super(p, "jo");
@@ -40,8 +43,9 @@ public class Jo extends Player
         super.height = 60;
         super.x = 10;
         super.y = environment.getGround();
-        health = 10;
+        health = 5;
         score = 0;
+        damage = 1;
         facingRight = true;
         isFlying = false;
         isIdle = true;
@@ -130,9 +134,38 @@ public class Jo extends Player
         // play sound
         this.audioHandler.getClip(ora).play();
 		System.out.println("ORA!");
-	}
+    }
     
+    public void upgrade1(){
+        damage += 2;
+    }
+    public void upgrade2(){
+        health = 8;
+        damage += 1;
+    }
+    public void upgrade3(){
+        health = 12;
+        damage += 1;
+        DX += 20;
+    }
+    
+    public int getDamage(){return this.damage;}
+
     public void updateJo(){
+        if(score >= 120 && !up1){
+            upgrade1();
+            up1 = true;
+        } 
+        
+        if(score >= 240 && !up2){
+            upgrade2();
+            up2 = true;
+        }
+        
+        if(score >= 300 && !up3){
+            upgrade3();
+            up3 = true;
+        }
         if(this.health <= 0){
             //this.yeet();
             win = false;
