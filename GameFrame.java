@@ -11,7 +11,7 @@ public class GameFrame extends JFrame implements ActionListener {
 
 	public GameFrame () {
 		setSize (1280, 720);
-		setTitle ("CnBT");
+		setTitle ("Jo's Bizarre Adventure");
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
