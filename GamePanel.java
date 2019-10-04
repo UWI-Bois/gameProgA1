@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
         tSpeed = 100;
         gameThread = null;
         isRunning = false;
-        System.out.println("GP created!");
+        //System.out.println("GP created!");
     }
 
     // implementation of Runnable interface
@@ -68,7 +68,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
         if(keyCode == KeyEvent.VK_SPACE && !jo.getCanShoot()){
                 jo.setCanShoot(true);
                 jo.fire();
-               //System.out.println("pressed space");
+               ////System.out.println("pressed space");
         }
             
         if (keyCode == KeyEvent.VK_LEFT) {
@@ -122,11 +122,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
             }
             else if(missile.isDead) {
                 jo.missiles.remove(missile.getId());
-                System.out.println("removed deaed missile");
+                //System.out.println("removed deaed missile");
             } 
             else {
                 jo.missiles.remove(missile.getId());
-                System.out.println("removed missile");
+                //System.out.println("removed missile");
             }
 		}
     }
@@ -137,7 +137,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		{
             Missile missile = m.getValue();
             jo.missiles.remove(missile.getId());
-            System.out.println("removed missile");
+            //System.out.println("removed missile");
 		}
     }
     

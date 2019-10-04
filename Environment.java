@@ -54,7 +54,7 @@ public class Environment extends Sprite
                 // TODO Auto-generated method stub
                 timerCount++;
                 if(timerCount % 5 != 0) spawnTimer = false;
-                // System.out.println("timercount: " + timerCount);
+                // //System.out.println("timercount: " + timerCount);
                 checkDio();
             }
         };
@@ -80,7 +80,7 @@ public class Environment extends Sprite
     public void checkDio(){
         if(this.timerCount >= dioTimer){
             canDio = true;
-            //System.out.println("action is coming");
+            ////System.out.println("action is coming");
         }
     }
 
@@ -172,14 +172,14 @@ public class Environment extends Sprite
         this.imageHandler.loadImage(bgImage);
         this.imageHandler.loadImage(gameOver);
         this.imageHandler.loadImage(gameStart);
-        System.out.println("initImages for Environment:" + imageHandler.toString());
+        //System.out.println("initImages for Environment:" + imageHandler.toString());
     }
 
     private void initAudio(){
         this.audioHandler.loadClip(bgm);
         this.audioHandler.loadClip(jojo);
         this.audioHandler.loadClip(giorno);
-        System.out.println("initAudio for Environment:" + audioHandler.toString());
+        //System.out.println("initAudio for Environment:" + audioHandler.toString());
     }
 
     public ImageHandler getImageHandler(){return this.imageHandler;}
@@ -239,17 +239,17 @@ public class Environment extends Sprite
     // public static void main(String[] args) {
     //     GamePanel p = new GamePanel();
     //     Environment e = new Environment(p);
-    //     System.out.println(e.toString());
+    //     //System.out.println(e.toString());
     //     int n;
     //     //e.audioHandler.playClip("bgm.wav");
     //     int max = 10;
     //     int min = 1;
     //     for (int i = 0; i < 200; i++) {
     //         n = getRandomInt(min, max);
-    //         if(n == min || n == max) System.out.println("n: " + n);
-    //         // System.out.println(e.getTimerCount());
+    //         if(n == min || n == max) //System.out.println("n: " + n);
+    //         // //System.out.println(e.getTimerCount());
             
     //     }
-    //     System.out.println("end e test");
+    //     //System.out.println("end e test");
     // }
 }

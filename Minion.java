@@ -72,7 +72,7 @@ public class Minion extends Sprite{
 		initAudio();
 		initImages();
 
-		System.out.println("minion created!" + this.toString());
+		//System.out.println("minion created!" + this.toString());
 	}
 
 	public int getId(){return this.id;}
@@ -80,13 +80,13 @@ public class Minion extends Sprite{
 	private void initAudio(){
 		this.audioHandler.loadClip(this.oof);
 		this.audioHandler.loadClip(this.clack);
-        System.out.println("initAudio for Minion:" + audioHandler.toString());
+        //System.out.println("initAudio for Minion:" + audioHandler.toString());
 	}
 	
 	private void initImages(){
         this.imageHandler.loadImage(explode);
         this.imageHandler.loadImage(spunk);
-        System.out.println("initImages for minion:" + imageHandler.toString());
+        //System.out.println("initImages for minion:" + imageHandler.toString());
     }
 
 	private void setSize () {
@@ -175,7 +175,7 @@ public class Minion extends Sprite{
 			if (hitPlayer) {
 				jo.setHealth(jo.getHealth()-this.damage);
 				// String s = jo.printStats();
-				//System.out.println(jo.printStats());
+				////System.out.println(jo.printStats());
 				//playClip (1);			// play clip if jo hits minion
 				audioHandler.getClip(oof).play();
 				this.yeet();

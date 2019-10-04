@@ -44,14 +44,14 @@ public class Dio extends Player {
 		jo = p.getJo();
 
 		initAudio(); // make an abstract class in player
-		//System.out.println("Dio created! " + this.toString());
+		////System.out.println("Dio created! " + this.toString());
 	}
 
 	private void initAudio() {
 		this.audioHandler.loadClip(this.wry);
 		this.audioHandler.loadClip(this.zaWarudo);
 		this.audioHandler.loadClip(this.timeResumes);
-		System.out.println("initAudio for Dio:" + audioHandler.toString());
+		//System.out.println("initAudio for Dio:" + audioHandler.toString());
 	}
 
 	public void draw(Graphics2D g2) {
@@ -93,7 +93,7 @@ public class Dio extends Player {
 			if (hitPlayer) {
 				jo.setHealth(jo.getHealth()-damage);
 				// String s = jo.printStats();
-				//System.out.println(jo.printStats());
+				////System.out.println(jo.printStats());
 				//playClip (1);			// play clip if jo hits minion
 				audioHandler.getClip(zaWarudo).play();
 			}

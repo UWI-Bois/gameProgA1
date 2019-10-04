@@ -59,7 +59,7 @@ public class Sprite
         dimension = panel.getSize(); 
         isDead = false;
         //environment = new Environment(p);
-        System.out.println("sprite created!");
+        //System.out.println("sprite created!");
     }
     
     public void setSize(int w, int h){
@@ -107,7 +107,7 @@ public class Sprite
 		int val = -1;
 		Random r = new Random();
 		val = min + r.nextInt(max - min + 1);
-		//System.out.println("getRandomInt(" + max +"," + min +")" + " says: val = " + val);
+		////System.out.println("getRandomInt(" + max +"," + min +")" + " says: val = " + val);
         return val;
     }
 

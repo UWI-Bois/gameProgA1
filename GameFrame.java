@@ -51,7 +51,7 @@ public class GameFrame extends JFrame implements ActionListener {
 	// 				getClass().getResource("clack.au"));
 	// 	}
 	// 	catch (Exception e) {
-	// 		System.out.println ("Error loading sound file: " + e);
+	// 		//System.out.println ("Error loading sound file: " + e);
 	// 	}
 
 	// }

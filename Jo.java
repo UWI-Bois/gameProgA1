@@ -51,12 +51,12 @@ public class Jo extends Player
         isIdle = true;
         initAudio();
         initImages();
-        //System.out.println("Jo created! " + this.toString());
+        ////System.out.println("Jo created! " + this.toString());
     }
     
     private void initAudio(){
         this.audioHandler.loadClip(ora);
-        System.out.println("initAudio for " + name + audioHandler.toString());
+        //System.out.println("initAudio for " + name + audioHandler.toString());
     }
     private void initImages(){
         this.imageHandler.loadImage(idle);
@@ -64,7 +64,7 @@ public class Jo extends Player
         this.imageHandler.loadImage(jump);
         this.imageHandler.loadImage(midAir);
         this.imageHandler.loadImage(landing);
-        System.out.println("initAudio for " + name + audioHandler.toString());
+        //System.out.println("initAudio for " + name + audioHandler.toString());
     }
 
     public void draw (Graphics2D g2) {
@@ -133,7 +133,7 @@ public class Jo extends Player
 		missiles.put(m.getId(), m);
         // play sound
         this.audioHandler.getClip(ora).play();
-		System.out.println("ORA!");
+		//System.out.println("ORA!");
     }
     
     public void upgrade1(){

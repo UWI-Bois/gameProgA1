@@ -34,7 +34,7 @@ public class AudioHandler
         this.folderName = folderName; 
         this.path = this.path + folderName + "/";
         this.clips = new LinkedHashMap<String, AudioClip>(); // does this work?
-        System.out.println("AudioHandler created~!");
+        //System.out.println("AudioHandler created~!");
     }
     
     public AudioHandler(){
@@ -42,7 +42,7 @@ public class AudioHandler
         //this.folderName = folderName; 
         //this.path += "/";
         this.clips = new LinkedHashMap<String, AudioClip>(); // does this work?
-        System.out.println("AudioHandler created~!");
+        //System.out.println("AudioHandler created~!");
     }
 
     public String getPath(){ return this.path;}
@@ -57,16 +57,16 @@ public class AudioHandler
 
 		}
 		catch (Exception e) {
-			System.out.println ("Error loading sound file: " + fileName + "  " + e);
+			//System.out.println ("Error loading sound file: " + fileName + "  " + e);
 		}
 	}
 
 	public void playClip (String fileName) {
         try {
             this.clips.get(fileName).play();
-            System.out.println("played clip: " + fileName);
+            //System.out.println("played clip: " + fileName);
         } catch (Exception e) {
-            System.out.println ("Error playing sound file: "+ fileName + "  " + e);
+            //System.out.println ("Error playing sound file: "+ fileName + "  " + e);
         }
 	}
     
@@ -96,7 +96,7 @@ public class AudioHandler
     //     // a.loadClip(fileName1);
     //     // a.playClip(fileName1);
 
-    //     System.out.println(a.toString());
+    //     //System.out.println(a.toString());
     // }
 
 }

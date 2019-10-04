@@ -24,7 +24,7 @@ public abstract class Player extends Sprite
 		missiles = new ConcurrentHashMap<Integer,Missile>();
 		audioHandler = new AudioHandler(name);
 		imageHandler = new ImageHandler(name);
-		System.out.println("Player created! Name: " + name);
+		//System.out.println("Player created! Name: " + name);
 	}
 
 	public abstract void draw (Graphics2D g2);
@@ -46,7 +46,7 @@ public abstract class Player extends Sprite
 			+ "\nScore: "
 			+ this.score;
 
-		//System.out.println(s);
+		////System.out.println(s);
 		return s;
 	}
 

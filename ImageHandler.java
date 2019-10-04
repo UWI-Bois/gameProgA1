@@ -38,7 +38,7 @@ public class ImageHandler
         this.folderName = folderName; 
         this.path = this.path + folderName + "/";
         this.images = new LinkedHashMap<String, Image>(); // does this work?
-        System.out.println("ImageHandler created~!");
+        //System.out.println("ImageHandler created~!");
     }
 
     public String getPath(){ return this.path;}
@@ -51,11 +51,11 @@ public class ImageHandler
 			ii = new ImageIcon(path + imageName);
             i = ii.getImage();
             this.images.put(imageName, i);
-			System.out.println("Loaded Image!: " + imageName);
-			System.out.println("image map for " + folderName + ": " + this.images.toString());
+			//System.out.println("Loaded Image!: " + imageName);
+			//System.out.println("image map for " + folderName + ": " + this.images.toString());
 		} catch (Exception e) {
-			System.out.println("error loading image: " + imageName);
-			System.out.println(e.getMessage());
+			//System.out.println("error loading image: " + imageName);
+			//System.out.println(e.getMessage());
 		}
 		return;
     }

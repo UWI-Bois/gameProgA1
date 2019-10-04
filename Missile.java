@@ -54,10 +54,10 @@ public class Missile extends Sprite
         damage = jo.damage;
         dio = p.getDio();
 
-        // if(jo.facingLeft){
-        //     MISSILE_SPEED = MISSILE_SPEED*-1;
-        // }
-        //System.out.println("missile created!");
+        if(jo.facingLeft){
+            MISSILE_SPEED = MISSILE_SPEED*-1;
+        }
+        ////System.out.println("missile created!");
     }
 
     public int getSpeed(){return this.MISSILE_SPEED;}
@@ -82,7 +82,7 @@ public class Missile extends Sprite
 
     public void move(){
         x += MISSILE_SPEED;
-        //System.out.println(x);
+        ////System.out.println(x);
         if(x > boardWidth || x < 0){
             visible = false; // might have to change to true
             isDead = true;
@@ -114,7 +114,7 @@ public class Missile extends Sprite
                     
                     minion.yeet();
                     jo.addScore(minion.getWorth());
-                    System.out.println("Minion Slain!\nJo Stats:\n" + jo.toString() + "\nMinion Stats: " + minion.toString());
+                    //System.out.println("Minion Slain!\nJo Stats:\n" + jo.toString() + "\nMinion Stats: " + minion.toString());
                 }
             }
         }
@@ -130,7 +130,7 @@ public class Missile extends Sprite
             if(hp <= 0){
                 dio.yeet();
                 jo.addScore(dio.getWorth());
-                System.out.println("Dio Slain!\nJo Stats:\n" + jo.toString() + "\ndio Stats: " + dio.toString());
+                //System.out.println("Dio Slain!\nJo Stats:\n" + jo.toString() + "\ndio Stats: " + dio.toString());
             }
         }
     }
