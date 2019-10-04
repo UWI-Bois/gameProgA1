@@ -2,6 +2,16 @@
 ## Game Description
 Play as Jo, who shoots his gun (Star Platinum) to destroy the enemies (minions). You get points when you destroy enemies, after a certain amount of points, you will get upgrades to your gun. Survive for 1 minute and acquire as many points as possible before facing the big boss (dio).
 
+## Controls:
+Movement: 
+-	Left: left arrow key
+-	Right: right arrow key
+-	Float: up arrow key
+-	Fly: up arrow key (hold)
+Combat:
+-	Shoot: spacebar 
+
+
 ## Things to Note:
 
 1.	Try to get as many points as possible.
