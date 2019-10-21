@@ -4,7 +4,10 @@
 # Log file
 *.log
 
-/.vscode
+out/
+.vscode/
+.vscode
+/out
 
 # BlueJ files
 *.ctxt
