@@ -1,19 +1,12 @@
-import java.util.Set;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import javax.swing.JPanel;
-import java.applet.AudioClip;
-import java.awt.event.*;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.Image;
-import javax.swing.ImageIcon;
-import javax.swing.Timer;
-import java.util.List;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Set;
 
-public class GamePanel extends JPanel implements Runnable, KeyListener 
+public class
+GamePanel extends JPanel implements Runnable, KeyListener
 {                   
     private Jo jo = null;
     private Dio dio = null;
